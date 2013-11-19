@@ -1,0 +1,45 @@
+.navbar {
+    border-top: 10px solid black;
+    padding-top: 25px;
+    background:url('http://treerock.me/assets/stripe.png') repeat-x top left white;
+}
+
+.heading {
+    font-family: 'Vollkorn', serif;  
+}
+
+.heading h1 {
+    font-size: 3em;
+    font-weight: normal;
+    float:left;
+    margin:0 0.5em; 
+}
+
+.subheading {
+    float:left;
+    margin:1.7em 0 0 0; 
+}
+
+/* Sandbox tiles
+------------------------------------*/
+.sandbox {
+    background-color: #ddd;
+}
+
+.item {
+    background-color: white;
+    height: 400px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 7.5px -11.25px;
+}
+
+
+.col:first-child .item{
+    margin-left: -7.5px;
+}
+
+.col:last-child .item {
+    margin-right: -7.5px;
+}

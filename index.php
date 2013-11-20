@@ -39,9 +39,9 @@
         </div>
     </header>
 
-    <div class="container main clearfix">
+    <div class="main clearfix">
         <?php include('project.php'); ?>
-    </div>
+    </div><!-- .main -->
 
     <footer>
         <div class="container">

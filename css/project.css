@@ -6,3 +6,20 @@
     padding: 5px;
     border: 1px solid #ddd;
 }
+
+tr.done {
+    background-color: #aaa;
+    width: 40px;
+}
+
+a.not-done {
+    display:none;
+}
+
+tr.done a.done {
+    display:none;
+}
+
+tr.done a.not-done {
+    display: block;
+}

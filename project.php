@@ -9,7 +9,7 @@
 <div ng-controller="ProjCntr" ng-app>
     <div class="container">
         <div class="col col-3">
-            <p>Add Task</p>
+            <h2>Add Task</h2>
             <form ng-submit="addTask(taskKey)">
                 <input type="text" value="" ng-model="newName" placeholder="Add New Task" />
                 <div ng-class="{hidden: taskIsHidden()}" class="hidden">
@@ -20,7 +20,11 @@
                 </div>
                 <input type="submit" id="submit" value="Submit" />
             </form>
-            <p>Select Date Range</p>
+            <h2>Select Date Range</h2>
+            <h2>Points</h2>
+            <div>
+                <p>{{points}} points</p>
+            </div>
         </div>
         <div class="col col-9">
             <div class="days ng-cloak container clearfix" >

@@ -15,6 +15,7 @@ function ProjCntr($scope) {
     $scope.tasks = [];
     $scope.tasksDone = {};
     $scope.formHidden = true;
+    $scope.points = 0;
     for(var i = 0; i < days; i++) {
         dates.push(new Date().setDate(new Date().getDate() + i));
     }
@@ -32,6 +33,18 @@ function ProjCntr($scope) {
         start_date: today,
         end_date: null
     });
+    
+    
+    var calcScore = function() {
+        var day = 5; // 5 points per task
+        var td = $scope.tasksDone;
+        var points = 0;
+        for(var i in td) {
+            points += td[i].length*day;
+        }
+        $scope.points = points;
+    };
+    
     $scope.addTask = function(key) {
         if(typeof key != 'undefined' && key !== '') {
             $scope.tasks[key].name = $scope.newName;
@@ -73,15 +86,16 @@ function ProjCntr($scope) {
                 $scope.tasksDone[key] = [];
                 $scope.tasksDone[key].push(day);
             } else {
-                console.log("update");
+//                 console.log("update");
                 $scope.tasksDone[key].push(day);
             }
-            console.log($scope.tasksDone);
+//             console.log($scope.tasksDone);
         } else {
             var i = $scope.tasksDone[key].indexOf(day);
-            $scope.tasksDone[key].splice(i,1);
-            console.log(i);
+            $scope.tasksDone[key].splice(i, 1);
+//             console.log(i);
         }
+        calcScore();
     };
     $scope.isDone = function(key, day) {
         if(typeof $scope.tasksDone[key] == 'undefined') {
@@ -92,4 +106,6 @@ function ProjCntr($scope) {
             return false;
         }
     };
+    
+    
 }

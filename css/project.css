@@ -4,11 +4,15 @@
 
 .tasks td {
     padding: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
 }
 
-tr.done {
-    background-color: #aaa;
+.tasks tr {
+    background-color: #eee;
+}
+
+.tasks tr.done {
+    background-color: #bbb;
     width: 40px;
 }
 
@@ -22,4 +26,22 @@ tr.done a.done {
 
 tr.done a.not-done {
     display: block;
+}
+
+.day {
+    width: 49%;
+    float:left;
+    padding: 5px;
+    margin: 0.5%;
+    border: 1px dashed #ccc;
+/*     background-color: #ddd; */
+}
+
+.day h2 {
+    text-align: center;
+    margin: 0; padding: 0;
+}
+.tool {
+    font-size: small;
+    width: 45px;
 }

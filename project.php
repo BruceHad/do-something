@@ -34,10 +34,10 @@
                         <tr class="task" ng-repeat="(key,task) in tasks" ng-class="{done: isDone(key, day)}">
                             <td>{{task.name}}</td>
                             <td>{{task.description}}</td>
-                            <td><a href="" ng-click="done(key, day, true)" class="done">Done</a>
+                            <td class="tool"><a href="" ng-click="done(key, day, true)" class="done">Done</a>
                                 <a href="" ng-click="done(key, day, false)" class="not-done">Not Done</a></td>
-                            <td><a href="" ng-click="edit(key)" class="edit">Edit</a></td>
-                            <td><a href="" ng-click="delete(key)" class="delete">Delete</a></td>
+                            <td class="tool"><a href="" ng-click="edit(key)" class="edit">Edit</a></td>
+                            <td class="tool"><a href="" ng-click="delete(key)" class="delete">Delete</a></td>
                         </tr>
                     </table>
                 </div>

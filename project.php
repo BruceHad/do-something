@@ -13,7 +13,6 @@
             <form ng-submit="addTask(taskKey)">
                 <input type="text" value="" ng-model="newName" placeholder="Add New Task" />
                 <div ng-class="{hidden: taskIsHidden()}" class="hidden">
-                    <input type="text" value="" ng-model="newDescription" placeholder="Add Description" />
                     <input type="text" value="" ng-model="taskKey" placeholder="Add New Task" class="hidden" />
                     <input type="text" value="" ng-model="newStartDate" placeholder="Change Start Date" />
                     <input type="text" value="" ng-model="newEndDate" placeholder="Change End Date" />
@@ -33,7 +32,6 @@
                     <table class="tasks">
                         <tr class="task" ng-repeat="(key,task) in tasks" ng-class="{done: isDone(key, day)}">
                             <td>{{task.name}}</td>
-                            <td>{{task.description}}</td>
                             <td class="tool"><a href="" ng-click="done(key, day, true)" class="done">Done</a>
                                 <a href="" ng-click="done(key, day, false)" class="not-done">Not Done</a></td>
                             <td class="tool"><a href="" ng-click="edit(key)" class="edit">Edit</a></td>

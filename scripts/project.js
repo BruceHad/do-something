@@ -23,13 +23,13 @@ function ProjCntr($scope) {
     // Initial Defaults - will be replaced with real tasks
     $scope.tasks.push({
         name: "Add a Task",
-        description: "Edit this task or delete and create a new one.",
+        // description: "Edit this task or delete and create a new one.",
         start_date: today,
         end_date: null
     });
     $scope.tasks.push({
         name: "Another Task",
-        description: "Here is another example of a task. The plan is that these tasks are things you want to do most every day.",
+        // description: "Here is another example of a task. The plan is that these tasks are things you want to do most every day.",
         start_date: today,
         end_date: null
     });

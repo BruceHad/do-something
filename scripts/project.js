@@ -33,18 +33,15 @@ function ProjCntr($scope) {
         start_date: today,
         end_date: null
     });
-    
-    
     var calcScore = function() {
         var day = 5; // 5 points per task
         var td = $scope.tasksDone;
         var points = 0;
         for(var i in td) {
-            points += td[i].length*day;
+            points += td[i].length * day;
         }
         $scope.points = points;
     };
-    
     $scope.addTask = function(key) {
         if(typeof key != 'undefined' && key !== '') {
             $scope.tasks[key].name = $scope.newName;
@@ -86,14 +83,14 @@ function ProjCntr($scope) {
                 $scope.tasksDone[key] = [];
                 $scope.tasksDone[key].push(day);
             } else {
-//                 console.log("update");
+                //                 console.log("update");
                 $scope.tasksDone[key].push(day);
             }
-//             console.log($scope.tasksDone);
+            //             console.log($scope.tasksDone);
         } else {
             var i = $scope.tasksDone[key].indexOf(day);
             $scope.tasksDone[key].splice(i, 1);
-//             console.log(i);
+            //             console.log(i);
         }
         calcScore();
     };
@@ -106,6 +103,14 @@ function ProjCntr($scope) {
             return false;
         }
     };
-    
-    
+    $scope.save = function() {
+        saveObj = {
+            tasks: $scope.tasks,
+            taskDone: $scope.tasksDone
+        };
+        saveJson = JSON.stringify(saveObj);
+//         console.log(saveJson);
+        $scope.save = Base64.encode(saveJson);
+//         console.log(save64);
+    };
 }

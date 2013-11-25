@@ -24,6 +24,11 @@
             <div>
                 <p>{{points}} points</p>
             </div>
+            <h2>Save Progress</h2>
+            <div>
+                <p><a href="" ng-click="save()">Save</a></p>
+                <p>{{save}}</p>
+            </div>
         </div>
         <div class="col col-9">
             <div class="days ng-cloak container clearfix" >

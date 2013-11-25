@@ -109,8 +109,14 @@ function ProjCntr($scope) {
             taskDone: $scope.tasksDone
         };
         saveJson = JSON.stringify(saveObj);
-//         console.log(saveJson);
-        $scope.save = Base64.encode(saveJson);
-//         console.log(save64);
+        $scope.saveStr = Base64.encode(saveJson);
+    };
+
+    $scope.load = function(saveStr){
+        console.log(saveStr);
+        loadJson = Base64.decode(saveStr);
+        console.log(loadJson);
+        $scope.tasks = loadJson.tasks;
+        $scope.tasksDone = loadJson.tasksDone;
     };
 }

@@ -24,10 +24,11 @@
             <div>
                 <p>{{points}} points</p>
             </div>
-            <h2>Save Progress</h2>
+            <h2>Save Setup</h2>
             <div>
-                <p><a href="" ng-click="save()">Save</a></p>
-                <p>{{save}}</p>
+                
+                <textarea class="hidde">{{saveStr}}</textarea>
+                <p><a href="" ng-click="save()">Save</a> | <a href="" ng-click="load(saveStr)">Load</a></p>
             </div>
         </div>
         <div class="col col-9">

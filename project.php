@@ -53,4 +53,13 @@
             </div>
         </div>
     </div>
+    <div class="container hidden">
+        <h2>Colophon</h2>
+        <ul>
+            <li><a href="http://adamwhitcroft.com/batch/">Batch Icons</a></li>
+            <li><a href="http://www.webtoolkit.info/">Base64 encode/decode script</a></li>
+            <li><a href="http://momentjs.com/">MomentJS - Date Library</a></li>
+            <li><a href="http://www.angularjs.org/">AngularJS Framework</a></li>
+        </ul>
+    </div>
 </div>

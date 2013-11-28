@@ -37,7 +37,7 @@
                     <h2>{{day}}</h2>
                     <table class="tasks">
                         <tr class="task" ng-repeat="(key,task) in tasks" ng-class="{done: isDone(key, day)}">
-                            <td>{{task.name}}</td>
+                            <td class="name">{{task.name}}</td>
                             <td class="tool"><a href="" ng-click="done(key, day, true)" class="done">Done</a>
                                 <a href="" ng-click="done(key, day, false)" class="not-done">Not Done</a></td>
                             <td class="tool"><a href="" ng-click="edit(key)" class="edit">Edit</a></td>

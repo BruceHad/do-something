@@ -29,19 +29,19 @@ tr.done a.not-done {
 }
 
 .day {
-    width: 49%;
-    float:left;
     padding: 5px;
-    margin: 0.5%;
-    border: 1px dashed #ccc;
-/*     background-color: #ddd; */
 }
 
 .day h2 {
-    text-align: center;
+    text-align: right;
     margin: 0; padding: 0;
 }
 .tool {
     font-size: small;
     width: 45px;
+}
+
+.name {
+    width: 50%;
+    border:1px solid red;
 }

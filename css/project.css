@@ -1,47 +1,46 @@
 .ng-cloak, .hidden {
     display: none;
 }
-
-.tasks td {
-    padding: 5px;
-    border: 1px solid #ccc;
-}
-
-.tasks tr {
-    background-color: #eee;
-}
-
-.tasks tr.done {
-    background-color: #bbb;
-    width: 40px;
-}
-
-a.not-done {
-    display:none;
-}
-
-tr.done a.done {
-    display:none;
-}
-
-tr.done a.not-done {
-    display: block;
-}
-
 .day {
-    padding: 5px;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    margin: 2px;
+}
+.day > div {
+    margin: 0; padding:0;
+    float: left;
 }
 
-.day h2 {
-    text-align: right;
-    margin: 0; padding: 0;
-}
-.tool {
-    font-size: small;
-    width: 45px;
+.day .one, .day .two {
+    width: 15%;
 }
 
-.name {
-    width: 50%;
-    border:1px solid red;
+.day .three {
+    width: 70%;
+}
+
+.task {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 2px 0;
+}
+
+.task .name {
+    width: 75%;
+    float: left;
+}
+
+.task .tools {
+    width: 25%;
+    float: left;
+}
+
+/* Tools 
+------------------------*/
+.tools a {
+    display:block;
+    width: 16px; height: 16px;
+    margin: 1px 0;
+    border: 1px solid green;
+    overflow: hidden;
 }

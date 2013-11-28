@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <header class="navbar navbar-default clearfix">
+    <header class="navbar navbar-default clearfix hidden">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="http://www.treerock.me/">Home</a>
@@ -52,6 +52,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <script src="scripts/project.js"></script>
     <script src="scripts/base64.js"></script>
+    <script src="scripts/moment.js"></script>
 </body>
 
 </html>

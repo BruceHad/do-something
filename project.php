@@ -1,4 +1,4 @@
-<div class="container heading clearfix">
+<div class="container heading clearfix hidden">
     <h1>Treerock</h1>
     <p class="subheading">
         Sandbox Projects
@@ -33,17 +33,22 @@
         </div>
         <div class="col col-9">
             <div class="days ng-cloak container clearfix" >
-                <div class="day" ng-repeat="day in dates">
-                    <h2>{{day}}</h2>
-                    <table class="tasks">
-                        <tr class="task" ng-repeat="(key,task) in tasks" ng-class="{done: isDone(key, day)}">
-                            <td class="name">{{task.name}}</td>
-                            <td class="tool"><a href="" ng-click="done(key, day, true)" class="done">Done</a>
-                                <a href="" ng-click="done(key, day, false)" class="not-done">Not Done</a></td>
-                            <td class="tool"><a href="" ng-click="edit(key)" class="edit">Edit</a></td>
-                            <td class="tool"><a href="" ng-click="delete(key)" class="delete">Delete</a></td>
-                        </tr>
-                    </table>
+                
+                <div class="day clearfix" ng-repeat="day in dates">
+                    <div class="one"><span>{{dates[0].date}}</span></div>
+                    <div class="two">{{day.ddd}}</div>
+                    <div class="three">
+                        <div class="task clearfix" ng-repeat="(key,task) in tasks" ng-class="{done: isDone(key, day)}"> 
+                            <div class="name">
+                                {{task.name}}
+                            </div>
+                            <div class="tools">
+                                <a href="" ng-click="done(key, day, true)" class="done">Done</a>
+                                <a href="" ng-click="edit(key)" class="edit">Edit</a>
+                                <a href="" ng-click="delete(key)" class="delete">Delete</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

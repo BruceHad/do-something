@@ -26,9 +26,16 @@
             </div>
             <h2>Save Setup</h2>
             <div>
-                
-                <textarea class="hidde">{{saveStr}}</textarea>
-                <p><a href="" ng-click="save()">Save</a> | <a href="" ng-click="load(saveStr)">Load</a></p>
+                <form ng-submit="save()">
+                    <textarea class="hidde">{{saveStr}}</textarea>
+                    <input type="submit" id="save" value="Save" />
+                </form>
+            </div>
+            <div>
+                <form ng-submit="load()">
+                    <textarea class="hidde" ng-model="loadStr"></textarea>
+                    <input type="submit" id="load" value="Load" />
+                </form>
             </div>
         </div>
         <div class="col col-9">

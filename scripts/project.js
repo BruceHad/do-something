@@ -12,25 +12,26 @@ function ProjCntr($scope) {
     $scope.tasksDone = {};
     $scope.formHidden = true;
     $scope.points = 0;
+    $scope.saveStr = '';
+    $scope.loadStr = '';
     for(var i = 0; i < days; i++) {
         var day = {};
         day.date = moment().add('days', i).format('dddd, MMMM Do');
         day.ddd = moment().add('days', i).format('ddd');
         day.timestamp = moment().add('days', i).unix();
-//         console.log(day);
-        $scope.dates.push(day);        
+        //         console.log(day);
+        $scope.dates.push(day);
     }
-    
-//     $scope.dates = dates.map(dateString);
+    //     $scope.dates = dates.map(dateString);
     // Initial Defaults - will be replaced with real tasks
     $scope.tasks.push({
         name: "Add a Task",
-        start_date: today,
+        start_date: today.unix(),
         end_date: null
     });
     $scope.tasks.push({
         name: "Another Task",
-        start_date: today,
+        start_date: today.unix(),
         end_date: null
     });
     var calcScore = function() {
@@ -104,19 +105,20 @@ function ProjCntr($scope) {
         }
     };
     $scope.save = function() {
+        console.log($scope.tasksDone);
         saveObj = {
             tasks: $scope.tasks,
-            taskDone: $scope.tasksDone
+            tasksDone: $scope.tasksDone
         };
         saveJson = JSON.stringify(saveObj);
         $scope.saveStr = Base64.encode(saveJson);
     };
-
-    $scope.load = function(saveStr){
-        console.log(saveStr);
-        loadJson = Base64.decode(saveStr);
-        console.log(loadJson);
-        $scope.tasks = loadJson.tasks;
-        $scope.tasksDone = loadJson.tasksDone;
+    $scope.load = function() {
+        this.loadStr = Base64.decode(this.loadStr);
+        this.loadStr = JSON.parse(this.loadStr);
+        console.log(this.loadStr);
+        $scope.tasks = this.loadStr.tasks;
+        $scope.tasksDone = this.loadStr.tasksDone;
+        this.loadStr = '';
     };
 }

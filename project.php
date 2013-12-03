@@ -49,7 +49,7 @@
                     <div class="one"><span ng-class="{invisible: day.ddd!='Mon'}"><em>{{day.date}}</em></span></div>
                     <div class="two">{{day.ddd}}</div>
                     <div class="three">
-                        <div class="task clearfix" ng-repeat="(key,task) in tasks" ng-class="{done: isDone(key, day.timestamp)}"> 
+                        <div class="task clearfix" ng-repeat="task in day.dailyTasks" ng-class="{done: isDone(key, day.timestamp)}"> 
                             <div class="name">
                                 {{task.name}}
                             </div>

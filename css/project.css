@@ -1,6 +1,13 @@
 .ng-cloak, .hidden {
-    display: none;
+    display: none !important;
 }
+
+.invisible {
+    visibility: hidden;
+}
+
+/* Task
+---------------------------*/
 .day {
     border-top: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
@@ -13,16 +20,22 @@
 
 .day .one, .day .two {
     width: 15%;
+    font-size: small;
 }
 
 .day .three {
     width: 70%;
 }
 
+.weekend {
+    background-color: #f1f1f1;
+}
+
 .task {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     margin: 2px 0;
+    padding: 2px;
 }
 
 .task .name {
@@ -30,17 +43,24 @@
     float: left;
 }
 
+.done {
+    background-color: #ddd;
+}
+
+
+
+/* Tools 
+------------------------*/
 .task .tools {
     width: 25%;
     float: left;
 }
 
-/* Tools 
-------------------------*/
 .tools a {
     display:block;
+    float:left;
     width: 16px; height: 16px;
-    margin: 1px 0;
+    margin: 1px;
     border: 1px solid green;
     overflow: hidden;
 }

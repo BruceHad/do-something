@@ -24,7 +24,7 @@
 
 <body>
     <header class="navbar navbar-default clearfix hidden">
-        <div class="container">
+        <div class="container"><di
             <div class="navbar-header">
                 <a class="navbar-brand" href="http://www.treerock.me/">Home</a>
             </div>

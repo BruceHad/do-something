@@ -5,24 +5,14 @@ Array.prototype.remove = function(from, to) {
 };
 
 function ProjCntr($scope) {
-    $scope.dates = [];
-    var today = moment();
-    var days = 7;
+    var today = moment(),
+        days = 14;
     $scope.tasks = [];
     $scope.tasksDone = {};
     $scope.formHidden = true;
     $scope.points = 0;
     $scope.saveStr = '';
     $scope.loadStr = '';
-    for(var i = 0; i < days; i++) {
-        var day = {};
-        day.date = moment().add('days', i).format('dddd, MMMM Do');
-        day.ddd = moment().add('days', i).format('ddd');
-        day.timestamp = moment().add('days', i).unix();
-        //         console.log(day);
-        $scope.dates.push(day);
-    }
-    //     $scope.dates = dates.map(dateString);
     // Initial Defaults - will be replaced with real tasks
     $scope.tasks.push({
         name: "Add a Task",
@@ -34,6 +24,17 @@ function ProjCntr($scope) {
         start_date: today.unix(),
         end_date: null
     });
+    var update = function() {
+        $scope.dates = [];
+        for(var i = 0; i < days; i++) {
+            var day = {},
+                thisDay = moment.unix(today.unix()).add('days', i);
+            day.date = thisDay.format('MMMM Do');
+            day.ddd = thisDay.format('ddd');
+            day.timestamp = thisDay.unix();
+            $scope.dates.push(day);
+        }
+    };
     var calcScore = function() {
         var day = 5; // 5 points per task
         var td = $scope.tasksDone;
@@ -84,7 +85,6 @@ function ProjCntr($scope) {
                 $scope.tasksDone[key] = [];
                 $scope.tasksDone[key].push(day);
             } else {
-                //                 console.log("update");
                 $scope.tasksDone[key].push(day);
             }
             //             console.log($scope.tasksDone);
@@ -105,7 +105,7 @@ function ProjCntr($scope) {
         }
     };
     $scope.save = function() {
-        console.log($scope.tasksDone);
+        console.log(this.tasksDone);
         saveObj = {
             tasks: $scope.tasks,
             tasksDone: $scope.tasksDone
@@ -114,11 +114,21 @@ function ProjCntr($scope) {
         $scope.saveStr = Base64.encode(saveJson);
     };
     $scope.load = function() {
+        this.tasks = [];
+        this.tasksDone = {};
         this.loadStr = Base64.decode(this.loadStr);
         this.loadStr = JSON.parse(this.loadStr);
-        console.log(this.loadStr);
-        $scope.tasks = this.loadStr.tasks;
         $scope.tasksDone = this.loadStr.tasksDone;
+        $scope.tasks = this.loadStr.tasks;
         this.loadStr = '';
     };
+    $scope.changeDate = function(direct) {
+        if(direct == 'prev') {
+            today.add('days', -1 * days);
+        } else {
+            today.add('days', days);
+        }
+        update();
+    };
+    update();
 }

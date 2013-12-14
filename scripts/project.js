@@ -5,7 +5,7 @@ Array.prototype.remove = function(from, to) {
 };
 
 function ProjCntr($scope) {
-    var today = moment(),
+    var today = moment().add('days', -7),
         days = 14;
     $scope.tasks = [];
     $scope.tasksDone = {};

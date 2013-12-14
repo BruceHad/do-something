@@ -13,25 +13,39 @@ function ProjCntr($scope) {
     $scope.points = 0;
     $scope.saveStr = '';
     $scope.loadStr = '';
+    $scope.dates = [];
     // Initial Defaults - will be replaced with real tasks
-    $scope.tasks.push({
+    tasks.push({
         name: "Add a Task",
         start_date: today.unix(),
         end_date: null
     });
-    $scope.tasks.push({
+    tasks.push({
         name: "Another Task",
         start_date: today.unix(),
         end_date: null
     });
+    
     var update = function() {
-        $scope.dates = [];
+        this.dates = []; // Clear dates array
         for(var i = 0; i < days; i++) {
-            var day = {},
-                thisDay = moment.unix(today.unix()).add('days', i);
+            var day = {};
+            var thisDay = moment.unix(today.unix()).add('days', i);
             day.date = thisDay.format('MMMM Do');
             day.ddd = thisDay.format('ddd');
             day.timestamp = thisDay.unix();
+            day.dailyTasks = [];
+            for (var j=0; j < tasks.length; j++){
+                var task = {};
+                task.name = tasks[j].name;
+                if(typeof tasksDone[j] != 'undefined' && tasksDone[j].indexOf(thisDay.unix()) ){
+                    task.status = 1;
+                } else {
+                    task.status = 0;
+                }
+                day.dailyTasks.push(task);
+            }
+            // Push to dates array
             $scope.dates.push(day);
         }
     };
@@ -79,17 +93,17 @@ function ProjCntr($scope) {
     $scope.taskIsHidden = function() {
         return $scope.formHidden;
     };
-    $scope.done = function(key, day, done) {
+    $scope.done = function(key, ts, done) {
         if(done) {
             if(typeof $scope.tasksDone[key] == 'undefined') {
                 $scope.tasksDone[key] = [];
-                $scope.tasksDone[key].push(day);
+                $scope.tasksDone[key].push(ts);
             } else {
-                $scope.tasksDone[key].push(day);
+                $scope.tasksDone[key].push(ts);
             }
             //             console.log($scope.tasksDone);
         } else {
-            var i = $scope.tasksDone[key].indexOf(day);
+            var i = $scope.tasksDone[key].indexOf(ts);
             $scope.tasksDone[key].splice(i, 1);
             //             console.log(i);
         }

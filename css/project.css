@@ -6,6 +6,10 @@
     visibility: hidden;
 }
 
+.date-period a {
+    font-size: small;
+}
+
 /* Task
 ---------------------------*/
 .day {
@@ -32,20 +36,27 @@
 }
 
 .task {
-    border: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     margin: 2px 0;
-    padding: 5px;
-    width: 33.3333%;
-    float:left;
+    padding: 2px;
 }
 
 .task .name {
-    width: 65%;
+    width: 75%;
     float: left;
 }
 
+.done {
+    background-color: #ddd;
+}
+
+
+
+/* Tools 
+------------------------*/
 .task .tools {
-    width:35%;
+    width: 25%;
     float: left;
 }
 
@@ -56,9 +67,4 @@
     margin: 1px;
     border: 1px solid green;
     overflow: hidden;
-}
-
-.done {
-    background-color: #ccc;
-    color: #888;
 }

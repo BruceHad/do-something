@@ -5,10 +5,17 @@ Array.prototype.remove = function(from, to) {
 };
 
 function ProjCntr($scope) {
+<<<<<<< HEAD
+    var today = moment().add('days', -7),
+        days = 14;
+    $scope.tasks = [];
+    $scope.tasksDone = {};
+=======
     var today = moment(),
         days = 14,
         tasks = [],
         tasksDone = {};
+>>>>>>> 48c5dcfe00d0d6b43d53cb159d4302b6c67977d2
     $scope.formHidden = true;
     $scope.points = 0;
     $scope.saveStr = '';
@@ -17,17 +24,17 @@ function ProjCntr($scope) {
     // Initial Defaults - will be replaced with real tasks
     tasks.push({
         name: "Add a Task",
-        start_date: today,
+        start_date: today.unix(),
         end_date: null
     });
     tasks.push({
         name: "Another Task",
-        start_date: today,
+        start_date: today.unix(),
         end_date: null
     });
     
     var update = function() {
-        $scope.dates = []; // Clear dates array
+        this.dates = []; // Clear dates array
         for(var i = 0; i < days; i++) {
             var day = {};
             var thisDay = moment.unix(today.unix()).add('days', i);
@@ -43,9 +50,6 @@ function ProjCntr($scope) {
                 } else {
                     task.status = 0;
                 }
-                console.log(tasks[j].end_date);
-                task.start_date = tasks[j].start_date.format('MMMM Do');
-                if(task.end_date != null){tasks[j].end_date.format('MMMM Do');}
                 day.dailyTasks.push(task);
             }
             // Push to dates array
@@ -54,7 +58,7 @@ function ProjCntr($scope) {
     };
     var calcScore = function() {
         var day = 5; // 5 points per task
-        var td = tasksDone;
+        var td = $scope.tasksDone;
         var points = 0;
         for(var i in td) {
             points += td[i].length * day;
@@ -62,39 +66,34 @@ function ProjCntr($scope) {
         $scope.points = points;
     };
     $scope.addTask = function(key) {
-        console.log(tasks); 
         if(typeof key != 'undefined' && key !== '') {
-            tasks[key].name = $scope.newName;
-            tasks[key].description = $scope.newDescription;
-            tasks[key].start_date = $scope.newStartDate;
-            tasks[key].end_date = $scope.newEndDate;
-            
+            $scope.tasks[key].name = $scope.newName;
+            $scope.tasks[key].description = $scope.newDescription;
+            $scope.tasks[key].start_date = $scope.newStartDate;
+            $scope.tasks[key].end_date = $scope.newEndDate;
+            $scope.formHidden = true;
+            $scope.newName = "";
+            $scope.newDescription = "";
+            $scope.newStartDate = "";
+            $scope.newEndDate = "";
+            $scope.taskKey = "";
         } else {
-            tasks.push({
+            $scope.tasks.push({
                 name: $scope.newName,
                 start_date: today,
                 end_date: null
             });
+            $scope.newName = "";
         }
-        $scope.formHidden = true;
-        $scope.newName = "";
-        $scope.newDescription = "";
-        $scope.newStartDate = "";
-        $scope.newEndDate = "";
-        $scope.taskKey = "";
-        update();
     };
     $scope.delete = function(key) {
-        tasks.remove(key);
+        $scope.tasks.remove(key);
     };
     $scope.edit = function(key) {
-        console.log(key);
-        $scope.newName = tasks[key].name;
-        $scope.newDescription = tasks[key].description;
-        $scope.newStartDate = tasks[key].start_date.format('MMMM Do');
-        if(tasks[key].end_date == null){
-            $scope.newEndDate } else {
-            $scope.newEndDate = tasks[key].end_date.format('MMMM Do');}
+        $scope.newName = $scope.tasks[key].name;
+        $scope.newDescription = $scope.tasks[key].description;
+        $scope.newStartDate = $scope.tasks[key].start_date;
+        $scope.newEndDate = $scope.tasks[key].end_date;
         $scope.taskKey = key;
         $scope.formHidden = false;
     };
@@ -103,24 +102,24 @@ function ProjCntr($scope) {
     };
     $scope.done = function(key, ts, done) {
         if(done) {
-            if(typeof tasksDone[key] == 'undefined') {
-                tasksDone[key] = [];
-                tasksDone[key].push(ts);
+            if(typeof $scope.tasksDone[key] == 'undefined') {
+                $scope.tasksDone[key] = [];
+                $scope.tasksDone[key].push(ts);
             } else {
-                tasksDone[key].push(ts);
+                $scope.tasksDone[key].push(ts);
             }
-            //             console.log(tasksDone);
+            //             console.log($scope.tasksDone);
         } else {
-            var i = tasksDone[key].indexOf(ts);
-            tasksDone[key].splice(i, 1);
+            var i = $scope.tasksDone[key].indexOf(ts);
+            $scope.tasksDone[key].splice(i, 1);
             //             console.log(i);
         }
         calcScore();
     };
     $scope.isDone = function(key, day) {
-        if(typeof tasksDone[key] == 'undefined') {
+        if(typeof $scope.tasksDone[key] == 'undefined') {
             return false;
-        } else if(tasksDone[key].indexOf(day) >= 0) {
+        } else if($scope.tasksDone[key].indexOf(day) >= 0) {
             return true;
         } else {
             return false;
@@ -129,8 +128,8 @@ function ProjCntr($scope) {
     $scope.save = function() {
         console.log(this.tasksDone);
         saveObj = {
-            tasks: tasks,
-            tasksDone: tasksDone
+            tasks: $scope.tasks,
+            tasksDone: $scope.tasksDone
         };
         saveJson = JSON.stringify(saveObj);
         $scope.saveStr = Base64.encode(saveJson);
@@ -140,8 +139,8 @@ function ProjCntr($scope) {
         this.tasksDone = {};
         this.loadStr = Base64.decode(this.loadStr);
         this.loadStr = JSON.parse(this.loadStr);
-        tasksDone = this.loadStr.tasksDone;
-        tasks = this.loadStr.tasks;
+        $scope.tasksDone = this.loadStr.tasksDone;
+        $scope.tasks = this.loadStr.tasks;
         this.loadStr = '';
     };
     $scope.changeDate = function(direct) {

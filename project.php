@@ -19,10 +19,6 @@
                 </div>
                 <input type="submit" id="submit" value="Submit" />
             </form>
-            <h2>Date Period</h2>
-            <p class="date-nav">
-                <a href="" ng-click="changeDate('prev')">Previous</a> <a href="" ng-click="changeDate('next')">Next</a>
-            </p>
             <h2>Points</h2>
             <div>
                 <p>{{points}} points</p>
@@ -44,14 +40,18 @@
         <div class="col col-9">
             
             <div class="days ng-cloak container clearfix" >   
-                <p>Period: {{dates[0].date}} to {{dates[dates.length-1].date}}</p>
+                <p class="date-period">
+                    Period: {{dates[0].date}} to {{dates[dates.length-1].date}} 
+                    <a href="#" ng-click="changeDate('prev')">Previous</a> 
+                    <a href="#" ng-click="changeDate('next')">Next</a>
+                </p>
                 <div class="day clearfix" ng-repeat="day in dates" ng-class="{weekend: day.ddd=='Sat' || day.ddd=='Sun'}">
                     <div class="one"><span ng-class="{invisible: day.ddd!='Mon'}"><em>{{day.date}}</em></span></div>
                     <div class="two">{{day.ddd}}</div>
                     <div class="three">
-                        <div class="task clearfix" ng-repeat="task in day.dailyTasks" ng-class="{done: isDone(key, day.timestamp)}"> 
+                        <div class="task clearfix" ng-repeat="(key,task) in day.dailyTasks" ng-class="{done: isDone(key, day.timestamp)}"> 
                             <div class="name">
-                                {{task.name}}
+                                {{task.name}}, {{task.start_date}}, {{task.end_date}}
                             </div>
                             <div class="tools">
                                 <a href="" ng-click="done(key, day.timestamp, true)" class="tickbox" ng-class="{hidden: isDone(key, day.timestamp)}" >Done</a>

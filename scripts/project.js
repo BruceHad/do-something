@@ -5,7 +5,7 @@ Array.prototype.remove = function(from, to) {
 };
 
 function ProjCntr($scope) {
-    var today = moment(),
+    var today = new Date(),
         days = 14,
         tasks = [],
         tasksDone = {};
@@ -17,12 +17,12 @@ function ProjCntr($scope) {
     // Initial Defaults - will be replaced with real tasks
     tasks.push({
         name: "Add a Task",
-        start_date: today,
+        start_date: new Date(today.getTime()),
         end_date: null
     });
     tasks.push({
         name: "Another Task",
-        start_date: today,
+        start_date: new Date(today.getTime()),
         end_date: null
     });
     
@@ -30,10 +30,9 @@ function ProjCntr($scope) {
         $scope.dates = []; // Clear dates array
         for(var i = 0; i < days; i++) {
             var day = {};
-            var thisDay = moment.unix(today.unix()).add('days', i);
-            day.date = thisDay.format('MMMM Do');
-            day.ddd = thisDay.format('ddd');
-            day.timestamp = thisDay.unix();
+            var thisDay = new Date(today.getTime())
+            // var thisDay = moment.unix(today.unix()).add('days', i);
+            day.date = thisDay.setDate(thisDay.getDate() + i);
             day.dailyTasks = [];
             for (var j=0; j < tasks.length; j++){
                 var task = {};
@@ -43,9 +42,9 @@ function ProjCntr($scope) {
                 } else {
                     task.status = 0;
                 }
-                console.log(tasks[j].end_date);
-                task.start_date = tasks[j].start_date.format('MMMM Do');
-                if(task.end_date != null){tasks[j].end_date.format('MMMM Do');}
+                // console.log("Update: " + tasks[j].end_date);
+                task.start_date = tasks[j].start_date;
+                if(task.end_date != null){tasks[j].end_date;}
                 day.dailyTasks.push(task);
             }
             // Push to dates array
@@ -62,7 +61,7 @@ function ProjCntr($scope) {
         $scope.points = points;
     };
     $scope.addTask = function(key) {
-        console.log(tasks); 
+        console.log("Add " + tasks); 
         if(typeof key != 'undefined' && key !== '') {
             tasks[key].name = $scope.newName;
             tasks[key].description = $scope.newDescription;
@@ -88,7 +87,7 @@ function ProjCntr($scope) {
         tasks.remove(key);
     };
     $scope.edit = function(key) {
-        console.log(key);
+        // console.log(key);
         $scope.newName = tasks[key].name;
         $scope.newDescription = tasks[key].description;
         $scope.newStartDate = tasks[key].start_date.format('MMMM Do');
@@ -127,7 +126,7 @@ function ProjCntr($scope) {
         }
     };
     $scope.save = function() {
-        console.log(this.tasksDone);
+        // console.log(this.tasksDone);
         saveObj = {
             tasks: tasks,
             tasksDone: tasksDone
@@ -146,9 +145,11 @@ function ProjCntr($scope) {
     };
     $scope.changeDate = function(direct) {
         if(direct == 'prev') {
-            today.add('days', -1 * days);
+            today.setDate(today.getDate() - days);
+            // today.add('days', -1 * days);
         } else {
-            today.add('days', days);
+            today.setDate(today.getDate() + days);
+            // today.add('days', days);
         }
         update();
     };

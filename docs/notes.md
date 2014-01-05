@@ -24,4 +24,44 @@ Users can tick a box to set the task to 'Done'. User get points for each task.
 The user's data is stored in the model. This saved to a cookie so that it is stored on the computed. It can also be exported and imported on a different computer. At a later date I might add user accounts which would allow this to be stored on the server and retrieved when the user logs in.
 
 
+## Model
+
+Kinda global (but not part of $scope):
+
+tasks = [
+    name:       string
+    start_date: moment
+    end_date:   moment (optional)]
+
+tasksDone = {}
+
+In the 'update' loop (part of $scope):
+
+dates = [
+    0: {
+        date: date
+        dailyTasks = [
+            name: string
+            status: 0/1
+            start_date: date
+            end_date: date (optional)
+
+        ]
+    }
+    1: {}
+    ...
+]
+
+
+### To Do
+
+1. Add Tasks
+
+2. Edit Tasks
+3. Save Data
+4. Load Data
+
+
+
+
 

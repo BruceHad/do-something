@@ -13,9 +13,18 @@
             <form ng-submit="addTask(taskKey)">
                 <input type="text" value="" ng-model="newName" placeholder="Add New Task" />
                 <div ng-class="{hidden: taskIsHidden()}" class="hidden">
-                    <input type="text" value="" ng-model="taskKey" placeholder="Add New Task" class="hidden" />
-                    <input type="text" value="" ng-model="newStartDate" placeholder="Change Start Date" />
-                    <input type="text" value="" ng-model="newEndDate" placeholder="Change End Date" />
+                    <input type="text" 
+                        value="" 
+                        ng-model="taskKey" 
+                        placeholder="Add New Task" 
+                        class="hidden" />
+                    <input type="text" 
+                       ng-model="startDateString"
+                       placeholder="yyyy-MM-dd">
+                    <!-- <input type="date" 
+                       ng-model="endDateString" 
+                       value="{{ date | date: 'yyyy-MM-dd' }}" 
+                       placeholder="yyyy-MM-dd"> -->
                 </div>
                 <input type="submit" id="submit" value="Submit" />
             </form>
@@ -41,17 +50,23 @@
             
             <div class="days ng-cloak container clearfix" >   
                 <p class="date-period">
-                    Period: {{dates[0].date}} to {{dates[dates.length-1].date}} 
+                    Period: {{dates[0].date | date:'d MMM'}} 
+                    to {{dates[dates.length-1].date | date:'d MMM'}} 
                     <a href="#" ng-click="changeDate('prev')">Previous</a> 
                     <a href="#" ng-click="changeDate('next')">Next</a>
                 </p>
-                <div class="day clearfix" ng-repeat="day in dates" ng-class="{weekend: day.ddd=='Sat' || day.ddd=='Sun'}">
-                    <div class="one"><span ng-class="{invisible: day.ddd!='Mon'}"><em>{{day.date}}</em></span></div>
-                    <div class="two">{{day.ddd}}</div>
+                <div class="day clearfix" ng-repeat="day in dates" 
+                    ng-class="{weekend: day.ddd=='Sat' || day.ddd=='Sun'}">
+                    <div class="one">
+                        &nbsp;
+                    </div>
+                    <div class="two">{{day.date | date: 'd MMM'}}</div>
                     <div class="three">
-                        <div class="task clearfix" ng-repeat="(key,task) in day.dailyTasks" ng-class="{done: isDone(key, day.timestamp)}"> 
+                        <div class="task clearfix" ng-repeat="(key,task) in day.dailyTasks" 
+                            ng-class="{done: isDone(key, day.timestamp)}"> 
                             <div class="name">
-                                {{task.name}}, {{task.start_date}}, {{task.end_date}}
+                                {{task.name}}, {{task.start_date | date: 'd MMM' }}, 
+                                {{task.end_date | date: 'd MMM'}}
                             </div>
                             <div class="tools">
                                 <a href="" ng-click="done(key, day.timestamp, true)" class="tickbox" ng-class="{hidden: isDone(key, day.timestamp)}" >Done</a>
@@ -70,7 +85,6 @@
         <ul>
             <li><a href="http://adamwhitcroft.com/batch/">Batch Icons</a></li>
             <li><a href="http://www.webtoolkit.info/">Base64 encode/decode script</a></li>
-            <li><a href="http://momentjs.com/">MomentJS - Date Library</a></li>
             <li><a href="http://www.angularjs.org/">AngularJS Framework</a></li>
         </ul>
     </div>

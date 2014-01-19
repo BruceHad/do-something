@@ -24,7 +24,6 @@
 
 .day .one, .day .two {
     width: 15%;
-    font-size: small;
 }
 
 .day .three {
@@ -51,6 +50,11 @@
     background-color: #ddd;
 }
 
+.small {
+    font-size: small;
+    color: #555;
+}
+
 
 
 /* Tools 
@@ -66,15 +70,26 @@
     width: 16px; height: 16px;
     margin: 1px;
     overflow: hidden;
+    text-indent: -9999px;
 }
 
-.tools .tickbox {
-    border:2px solid red;}
+.done {
+    /*border:2px solid red;*/
+    background:url('../img/done16.png');
+}
+
+.not-done{
+    background:url('../img/notdone16.png');
+}
 
 .edit {
-    border: 2px solid green;
+    background:url('../img/edit16.png');
 }
 
 .delete {
-    border: 2px solid blue;
+    background:url('../img/bin16.png');
+}
+
+.hidden {
+    display:none;
 }

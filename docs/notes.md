@@ -29,9 +29,14 @@ The user's data is stored in the model. This saved to a cookie so that it is sto
 Kinda global (but not part of $scope):
 
 tasks = [
-    name:       string
-    start_date: moment
-    end_date:   moment (optional)]
+    {
+        name:       string
+        start_date: moment
+        end_date:   moment (optional)},
+    {
+        ...
+    }
+]
 
 tasksDone = {
     key: [

@@ -33,23 +33,24 @@
         </div>
         <div class="col col-9">
             <div class="day clearfix" ng-repeat="day in dates" 
-                    ng-class="{weekend: day.ddd=='Sat' || day.ddd=='Sun'}">
-                    <div class="one">
-                        &nbsp;
+                    ng-class="{weekend: isWeekend(day.date)}">
+                    <div class="one">&nbsp;
+                        <span ng-class="{hidden: ! isSun(day.date)}">{{day.date | date: 'd-MMM-yy'}}</span>
                     </div>
-                    <div class="two">{{day.date | date: 'd MMM'}}</div>
+                    <div class="two">
+                        {{day.date | date: 'EEE'}}
+                    </div>
                     <div class="three">
                         <div class="task clearfix" ng-repeat="(key,task) in day.dailyTasks" 
                             ng-class="{done: isDone(key, day.timestamp)}"> 
                             <div class="name">
-                                {{task.name}}, 
-                                {{task.start_date | date: 'd MMM' }}, 
-                                {{task.end_date | date: 'd MMM'}}
-                                {{task.status}}
+                                {{task.name}} 
+                                <span class="small">({{task.start_date | date: 'd MMM' }}&ndash; 
+                                {{task.end_date | date: 'd MMM'}})</span>
                             </div>
                             <div class="tools">
-                                <a href="" ng-click="doneTask(key, day.date, true)" class="tickbox" ng-class="{hidden: isDone(key, day.timestamp)}" >Done</a>
-                                <a href="" ng-click="doneTask(key, day.date, false)" class="tickbox" ng-class="{hidden: ! isDone(key, day.timestamp)}">Not Done</a>
+                                <a href="" ng-click="doneTask(key, day.date, true)" class="tickbox done" ng-class="{hidden: isDone(key, day.date)}" >Done</a>
+                                <a href="" ng-click="doneTask(key, day.date, false)" class="tickbox not-done" ng-class="{hidden: ! isDone(key, day.date)}">Not Done</a>
                                 <a href="" ng-click="editTask(key)" class="edit">Edit</a>
                                 <a href="" ng-click="deleteTask(key)" class="delete">Delete</a>
                             </div>

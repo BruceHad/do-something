@@ -65,6 +65,7 @@ function ProjCntr($scope, dateFilter) {
     $scope.deleteTask = function(key) {
         console.log("Delete " + key);
         tasks.remove(key);
+        tasksDone[key] = [];
         update();
     };
     $scope.editTask = function(key) { 
@@ -88,6 +89,31 @@ function ProjCntr($scope, dateFilter) {
             tasksDone[key].splice(i, 1);
         }
         update();
+    };
+    $scope.isDone = function(key, date) {
+        if(typeof tasksDone[key] == 'undefined') {
+            return false;
+        } else if(tasksDone[key].indexOf(date) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.isSun = function(date){
+        var date = new Date(date);
+        if(date.getUTCDay() == 0){
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.isWeekend = function(date){
+        var date = new Date(date);
+        if(date.getUTCDay() == 0 || date.getUTCDay() == 6){
+            return true;
+        } else {
+            return false;
+        }
     };
 
 

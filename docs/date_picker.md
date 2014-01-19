@@ -19,6 +19,8 @@ $scope.date = new Date(dateString);
 
 I can therefore set up watchers to update the date when dateString changes and vice versa.
 
+I noticed that I got into some strange feedback loops when updating dateString. I therefore added some validation to check for a valid, 10 digit date before making the change to startDate.
+
 Also, dates can be formatted by angular in the HTML template. Which means I don't have to manually convert in the controller.
 
 e.g.

@@ -33,7 +33,13 @@ tasks = [
     start_date: moment
     end_date:   moment (optional)]
 
-tasksDone = {}
+tasksDone = {
+    key: [
+        date1,
+        date2,
+        ...
+    ]
+}
 
 In the 'update' loop (part of $scope):
 

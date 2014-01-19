@@ -8,6 +8,13 @@ function DateCntr($scope, dateFilter) {
     });
 
     $scope.$watch('dateString', function(dateString){
-        $scope.date = new Date(dateString);
+        // console.log(new Date(dateString));
+        if(dateString.length == 10 && dateString.match(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/)){
+            $scope.date = new Date(dateString);
+            console.log('Valid date');
+        }
+        else {
+            console.log('Not valid date');
+        }
     });
 }

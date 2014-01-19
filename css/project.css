@@ -65,6 +65,16 @@
     float:left;
     width: 16px; height: 16px;
     margin: 1px;
-    border: 1px solid green;
     overflow: hidden;
+}
+
+.tools .tickbox {
+    border:2px solid red;}
+
+.edit {
+    border: 2px solid green;
+}
+
+.delete {
+    border: 2px solid blue;
 }

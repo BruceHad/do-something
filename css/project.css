@@ -73,12 +73,12 @@
     text-indent: -9999px;
 }
 
-.done {
+.tools .done {
     /*border:2px solid red;*/
     background:url('../img/done16.png');
 }
 
-.not-done{
+.tools .not-done{
     background:url('../img/notdone16.png');
 }
 
@@ -92,4 +92,9 @@
 
 .hidden {
     display:none;
+}
+
+.taskdone {
+    background-color: #ccc;
+    color: #888;
 }

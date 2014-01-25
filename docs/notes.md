@@ -52,16 +52,31 @@ dates = [
     0: {
         date: date
         dailyTasks = [
-            name: string
-            status: 0/1
-            start_date: date
-            end_date: date (optional)
-
+            0: {
+                name: string
+                status: 0/1
+                start_date: date
+                end_date: date (optional)},
+            1: {...}
         ]
     }
     1: {}
     ...
 ]
+
+
+## Notes
+
+### The Update Loop
+
+The update() function controls what is displayed. It is called whenever anything needs to be updated, rebuilding the data each time. 
+
+It creates a dates[] array and populates it with data from tasks[] and tasksDone{}.
+
+Each element in the array contains an object containing a date and a list of tasks for that date.
+
+
+
 
 
 ### To Do

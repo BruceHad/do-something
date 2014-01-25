@@ -32,21 +32,29 @@
             </div>
         </div>
         <div class="col col-9">
+            <p class="date-period">
+                Period: {{dates[0].date | date:'d MMM'}} 
+                to {{dates[dates.length-1].date | date:'d MMM'}} 
+                <a href="#" ng-click="changeDate('prev')">Previous</a> 
+                <a href="#" ng-click="changeDate('next')">Next</a>
+            </p>
             <div class="day clearfix" ng-repeat="day in dates" 
                     ng-class="{weekend: isWeekend(day.date)}">
                     <div class="one">&nbsp;
-                        <span ng-class="{hidden: ! isSun(day.date)}">{{day.date | date: 'd-MMM-yy'}}</span>
+                        <span ng-class="{hidden: ! isMon(day.date)}">
+                            {{day.date | date: 'dd-MMM-yy'}}
+                        </span>
                     </div>
                     <div class="two">
                         {{day.date | date: 'EEE'}}
                     </div>
                     <div class="three">
                         <div class="task clearfix" ng-repeat="(key,task) in day.dailyTasks" 
-                            ng-class="{done: isDone(key, day.timestamp)}"> 
+                            ng-class="{taskdone: isDone(key, day.date)}"> 
                             <div class="name">
                                 {{task.name}} 
-                                <span class="small">({{task.start_date | date: 'd MMM' }}&ndash; 
-                                {{task.end_date | date: 'd MMM'}})</span>
+                                <span class="small">({{task.start_date | date: 'd MMM yy' }}&ndash;
+                                {{task.end_date | date: 'd MMM yy'}})</span>
                             </div>
                             <div class="tools">
                                 <a href="" ng-click="doneTask(key, day.date, true)" class="tickbox done" ng-class="{hidden: isDone(key, day.date)}" >Done</a>

@@ -4,15 +4,23 @@ Array.prototype.remove = function(from, to) {
     return this.push.apply(this, rest);
 };
 
+function getStartDate(d){
+    // Return first monday of the current week
+    var day = d.getDay();
+    d.setDate(d.getDate() - day+1);
+    return d;
+}
+
 
 function ProjCntr($scope, dateFilter) {
     $scope.name = "Do Something";
     $scope.formHidden = true;
 
-    var today = new Date(),
-        days = 14,
+    var today = getStartDate(new Date())
         tasks = [],
-        tasksDone = {};
+        tasksDone = {},
+        weeks = 2;
+    var days = weeks * 7;
 
     var update = function() {
         $scope.dates = []; // Clear dates array
@@ -22,19 +30,23 @@ function ProjCntr($scope, dateFilter) {
             day.date = thisDay.setDate(thisDay.getDate() + i);
             day.dailyTasks = [];
             for (var j=0; j < tasks.length; j++){
-                var task = {};
-                task.name = tasks[j].name;
-                task.status = 0;
-                if(typeof tasksDone[j] != 'undefined'){
-                    if(tasksDone[j].indexOf(day.date) >= 0){
-                        task.status = 1;
+                if(tasks[j].start_date <= day.date
+                    && (tasks[j].end_date >= day.date
+                        || tasks[j].end_date == null)){
+                    var task = {};
+                    task.name = tasks[j].name;
+                    task.status = 0;
+                    if(typeof tasksDone[j] != 'undefined'){
+                        if(tasksDone[j].indexOf(day.date) >= 0){
+                            task.status = 1;
+                        }
                     }
+                    task.start_date = tasks[j].start_date;
+                    if(tasks[j].end_date != null){
+                        task.end_date = tasks[j].end_date;
+                    }
+                    day.dailyTasks.push(task);
                 }
-                task.start_date = tasks[j].start_date;
-                if(tasks[j].end_date != null){
-                    task.end_date = tasks[j].end_date;
-                }
-                day.dailyTasks.push(task);
             }
             // Push to dates array
             $scope.dates.push(day);
@@ -99,9 +111,9 @@ function ProjCntr($scope, dateFilter) {
             return false;
         }
     };
-    $scope.isSun = function(date){
+    $scope.isMon = function(date){
         var date = new Date(date);
-        if(date.getUTCDay() == 0){
+        if(date.getUTCDay() == 1){
             return true;
         } else {
             return false;
@@ -115,6 +127,16 @@ function ProjCntr($scope, dateFilter) {
             return false;
         }
     };
+    $scope.changeDate = function(direct) {
+        if(direct == 'prev') {
+            today.setDate(today.getDate() - days);
+            // today.add('days', -1 * days);
+        } else {
+            today.setDate(today.getDate() + days);
+            // today.add('days', days);
+        }
+        update();
+    };
 
 
     // Initial Defaults - will be replaced with real tasks
@@ -126,8 +148,9 @@ function ProjCntr($scope, dateFilter) {
     tasks.push({
         name: "Another Task",
         start_date: new Date(today.getTime()),
-        end_date: null
+        end_date: new Date(today.getTime()+172800000)
     });
 
     update();
 }
+

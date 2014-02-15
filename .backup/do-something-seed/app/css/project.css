@@ -1,0 +1,123 @@
+.ng-cloak, .hidden {
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.date-period a {
+    font-size: small;
+}
+
+/* Task
+---------------------------*/
+.day {
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    margin: 2px;
+}
+.day > div {
+    margin: 0; padding:0;
+    float: left;
+}
+
+.day .one, .day .two {
+    width: 15%;
+}
+
+.day .three {
+    width: 70%;
+}
+
+.weekend {
+    background-color: #f1f1f1;
+}
+
+.task {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 2px 0;
+    padding: 2px;
+}
+
+.task .name {
+    width: 75%;
+    float: left;
+}
+
+.done {
+    background-color: #ddd;
+}
+
+.small {
+    font-size: small;
+    color: #555;
+}
+
+
+
+/* Tools 
+------------------------*/
+.task .tools {
+    width: 25%;
+    float: left;
+}
+
+.tools a {
+    display:block;
+    float:left;
+    width: 16px; height: 16px;
+    margin: 1px;
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+.tools .done {
+    /*border:2px solid red;*/
+    background:url('../img/done16.png');
+}
+
+.tools .not-done{
+    background:url('../img/notdone16.png');
+}
+
+.edit {
+    background:url('../img/edit16.png');
+}
+
+.delete {
+    background:url('../img/bin16.png');
+}
+
+.hidden {
+    display:none;
+}
+
+.taskdone {
+    background-color: #ccc;
+    color: #888;
+}
+
+/* Login 
+-----------------------------------*/
+.login {
+    border:1px solid #ccc;
+    border-left:0; border-right: 0;
+    background-color: #eee;
+}
+#login-form{
+    margin: 5px;
+    float:right;
+}
+
+#login-form input{
+    border: 1px dashed #bbb;
+    padding: 4px;
+}
+
+#login-form input[type=submit]{
+    background-color: #ccc;
+    border: 1px solid #bbb;
+    color: #666;
+    }

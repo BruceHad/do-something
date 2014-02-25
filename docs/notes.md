@@ -4,6 +4,41 @@ It's not a todo app! I use todo lists for reminders and, when it gets busy, to g
 
 I'm using AngularJS (mainly because I want to learn it) so it's going to be a front-end Javascript application. I may add user account and some back end stuff later.
 
+## 0. Description
+
+This is an javascript web application that uses the AngularJS framework, with PHP and MySQL to store the data in the background. 
+
+## 1. Database
+
+MySQL database stores the users, tasks, and tasks completed. 
+
+Users: user_id, user_name
+Tasks: task, start_date, end_date
+Tasks_Completed: task_id, completed_date
+
+PHP scripts keep the database up to date.
+
+* addTask.php
+* getTasks.php
+* getCompletions.php
+* updateTask.php
+* updateCompletion.php
+* getUser.php
+
+These use the [Angular $http service][1]
+
+[1]:http://docs.angularjs.org/api/ng/service/$http
+
+## 2. Login
+
+User enters a username in the login screen. If a user isn't logged in, the scripts can't retrieve tasks for anyone, so the screen in empty.
+
+On login, the scripts return the tasks and task completion from the database.
+
+## 3. Front End
+
+## 4. Controllers
+
 ## Design
 
 Single page app.

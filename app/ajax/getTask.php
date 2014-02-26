@@ -1,13 +1,13 @@
 <?php
 
 require_once 'db.php'; // The mysql database connection script
-$status = '%';
+$id = '2';
 
-if(isset($_GET['status'])){
-    $status = $_GET['status'];
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
 }
 
-$query=mysql_query("select ID, TASK, STATUS from tasks where status like '$status' order by status,id desc") or die(mysql_error());
+$query=mysql_query("select id, task, user_id from tasks where user_id = $id;") or die(mysql_error());
  
 # Collect the results
 while($obj = mysql_fetch_object($query)) {

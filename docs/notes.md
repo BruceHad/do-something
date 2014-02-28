@@ -1,12 +1,13 @@
 # Do Something Every Day
 
-It's not a todo app! I use todo lists for reminders and, when it gets busy, to get everything down and visible to make it easier to plan things out. But there are recurring tasks, things that I want to get into the habit of doing regularly. These tend to clutter up any todo list, and I really can't be bothered adding them every day. Do Something is for those things. It's the carrot and stick method. The stick of the reminder, telling you that you really wanted to do this thing. And the carrot of ticking that thing off the list.
-
-I'm using AngularJS (mainly because I want to learn it) so it's going to be a front-end Javascript application. I may add user account and some back end stuff later.
-
 ## 0. Description
 
-This is an javascript web application that uses the AngularJS framework, with PHP and MySQL to store the data in the background. 
+It's not a todo app! Okay, it's kinda like a todo app.
+
+It's a learning project where I'm trying out AngularJS and trying to built a fairly function web application, with a bit of Ajax type stuff and PHP to glue the app and the database together.
+
+The idea behind the app is to provide a way to record daily tasks that you want to complete every day, and give you the satisfaction of ticking them off. So yeah, it's yet another To Do app, but for recurring tasks.
+
 
 ## 1. Database
 

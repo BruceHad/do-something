@@ -1,2 +1,30 @@
 <h2>{{data.name}}</h2>
-<p>This is the partial for view 1.</p>
+
+<div class="day clearfix row" ng-repeat="day in data.dates"                    ng-class="{weekend: isWeekend(day.date)}">
+    <div class="col col-md-2 one">
+        <span ng-class="{hidden: ! methods.isMon(day.date)}">
+            {{day.date | date: 'dd-MMM'}}
+        </span>
+    </div>
+
+    <div class="col col-md-2 two">
+        {{day.date | date: 'EEE'}}
+    </div>
+    
+    <div class="col col-md-4 three">
+        <div class="task clearfix" ng-repeat="(key,task) in day.dailyTasks" 
+            ng-class="{taskdone: isDone(key, day.date)}"> 
+            <div class="name">
+                {{task.name}} 
+                <span class="small">({{task.start_date | date: 'd MMM yy' }}&ndash;
+                {{task.end_date | date: 'd MMM yy'}})</span>
+            </div>
+            <div class="tools">
+                <a href="" ng-click="doneTask(key, day.date, true)" class="tickbox done" ng-class="{hidden: isDone(key, day.date)}" >Done</a>
+                <a href="" ng-click="doneTask(key, day.date, false)" class="tickbox not-done" ng-class="{hidden: ! isDone(key, day.date)}">Not Done</a>
+                <a href="" ng-click="editTask(key)" class="edit">Edit</a>
+                <a href="" ng-click="deleteTask(key)" class="delete">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>

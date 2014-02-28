@@ -1,3 +1,6 @@
+----------------------------------
+-- End Setup
+----------------------------------
 -- Create user table
 create table if not exists `users`(
     `id` int(11) not null auto_increment,
@@ -32,3 +35,8 @@ values
     ('First task', 2, 1393362953),
     ('Another task', 2, 1388534400)
 ;
+
+----------------------------------
+-- End Setup
+----------------------------------
+select id, task, user_id from tasks where user_id = $id;

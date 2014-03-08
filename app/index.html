@@ -77,11 +77,19 @@
           <li><a href="#/view2">About</a></li>
         </ul>
         <form class="navbar-form navbar-right" ng-submit="getUsers(user_name)">
-          <div class="form-group">
-            <input type="text" placeholder="Enter Username" class="form-control" ng-model="user_name">
+          <div ng-hide="id>0">
+            <div class="form-group">
+              <input type="text" placeholder="Enter Username" class="form-control" ng-model="username">
+            </div>
+            <button type="submit" class="btn">Sign in</button>
+            <p>{{userMessage}}</p>
           </div>
-          <button type="submit" class="btn">Sign in</button>
+          <div ng-hide="id==''">
+            <p>Logged in as {{username}}</p>
+            <p><a href="#" ng-click="logOut()">Logout</a></p>
+          </div>
         </form>
+
       </div><!--/.navbar-collapse -->
     </div>
   </div>

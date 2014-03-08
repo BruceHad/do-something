@@ -18,21 +18,28 @@ function getStartDate(d){
 angular.module('myApp.controllers', [])
     .controller('MyCtrl', ['$scope', '$http',  '$cookieStore', function(scope, http, cookieStore) {
         scope.name = "Do Something";
-        scope.user_name = "";
+        scope.username = "";
+        if(cookieStore.get('id') > 0){scope.id = cookieStore.get('id');}
+        else {scope.id = '';}
 
         scope.getUsers = function() {
-            http.get("ajax/getUsers.php", {params: {name: scope.user_name}})
+            http.get("ajax/getUsers.php", {params: {name: scope.username}})
             .success(function(query){
                 var id = query[0].id;
                 if(id > 0){
-                    console.log(scope.user_name);
                     scope.id = id;
                     cookieStore.put('id', id);
-                    console.log(cookieStore.get('id'));
                 } else {
+                    scope.userMessage = "Invalid username: "+scope.username;
                     console.log(scope.user_name+": Invalid username");
+                    scope.username = "";
                 }
             });
+        };
+        scope.logOut = function(){
+               cookieStore.put('id', '');
+               scope.username = "";
+               scope.id = '';
         };
     }])
     // .controller('MyCtrl1', ['$scope', '$http', function($scope, $http)  {

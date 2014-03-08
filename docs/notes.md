@@ -1,5 +1,9 @@
 # Do Something Every Day
 
+ if(tasks[j].start_date <= day.date
+                    && (tasks[j].end_date >= day.date
+                        || tasks[j].end_date == null)){
+
 ## 0. Description
 
 It's not a todo app! Okay, it's kinda like a todo app.

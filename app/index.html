@@ -73,20 +73,19 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#/view1" class="active">Do Something</a></li>
-          <li><a href="#/view2">About</a></li>
+          <li><a href="#/main" class="active">Do Something</a></li>
+          <li><a href="#/about">About</a></li>
         </ul>
         <form class="navbar-form navbar-right" ng-submit="getUsers(user_name)">
-          <div ng-hide="id>0">
+          <div ng-hide="loggedin">
             <div class="form-group">
               <input type="text" placeholder="Enter Username" class="form-control" ng-model="username">
             </div>
             <button type="submit" class="btn">Sign in</button>
             <p>{{userMessage}}</p>
           </div>
-          <div ng-hide="id==''">
-            <p>Logged in as {{username}}</p>
-            <p><a href="#" ng-click="logOut()">Logout</a></p>
+          <div ng-hide="! loggedin">
+            <p>Logged in as {{username}} <a href="#" ng-click="logOut()">Logout</a></p>
           </div>
         </form>
 
@@ -95,12 +94,7 @@
   </div>
 
   <div id="wrap">
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-          <!-- <div  class="ng-view"></div> -->
-      </div>
-    </div>
+    <div  class="ng-view"></div>
     <div id="push"></div>
   </div>
 

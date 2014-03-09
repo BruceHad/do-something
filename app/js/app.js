@@ -13,7 +13,7 @@ angular.module('myApp', [
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/main', {
         templateUrl: 'partials/partial1.html', 
-        controller: 'MyCtrl1'});
+        controller: 'TasksCtrl'});
     $routeProvider.when('/about', {
         templateUrl: 'partials/partial2.html', 
         controller: 'MyCtrl2'});

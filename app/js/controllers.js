@@ -77,15 +77,24 @@ angular.module('myApp.controllers', [])
     };
 
     function checkDates(tasks){
-        // check tasks and return only those that fit in time period,
-        // else return nothing.
+        // check tasks and return only list of those that fit in time 
+        // period, else return nothing.
         var active = [];
+        scope.tasksFound = false;
         var start = new Date().setDate(today.getDate());
         var end = new Date().setDate(today.getDate()+days);
         for (var j=0; j < tasks.length; j++){
             if(tasks[j].start_date*1000 <= end && (tasks[j].end_date*1000 >= start || tasks[j].end_date == null)){
                 active.push(tasks[j]);
+                scope.tasksFound = true;
             }
+        }
+        if(scope.tasksFound == false){
+            return("Nothing found");
+        }
+        
+        for(var i = 0; i < days; i++){
+            console.log("hello");
         }
         return(active);
     }
@@ -93,12 +102,7 @@ angular.module('myApp.controllers', [])
     function createTasklist(){
         var tasks = scope.data.tasks;
         var actTasks = checkDates(tasks);
-        if(actTasks.length==0){
-            scope.tasksFound = false;
-            return "No tasks found";
-        } else {
-            scope.tasksFound = true;
-        };
+
 
         scope.data.dates = []; // Clear dates array
         // populate with dates

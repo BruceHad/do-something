@@ -40,7 +40,6 @@ angular.module('myApp.controllers', [])
                 cookieStore.put('username', scope.username);
             } else {
                 scope.userMessage = "Invalid username: "+scope.username;
-                // console.log(scope.user_name+": Invalid username");
                 scope.username = "";
             }
         });
@@ -57,6 +56,7 @@ angular.module('myApp.controllers', [])
 }])
 .controller('TasksCtrl', ['$scope', '$http', function(scope, http)  {
     scope.data = {};
+    scope.data.tasksFound = false;
     var days = 14;
     var today = getStartDate(new Date());
 
@@ -69,71 +69,67 @@ angular.module('myApp.controllers', [])
     });
 
     function getTasks(){
+        // Grab data from database: all tasks and taskDates for 
+        // user.
+        http.get("ajax/getTaskDates.php", {params: {id: scope.id}})
+        .success(function(taskDates){
+            scope.data.taskDates = taskDates;
+        });
+        // 2. Get task and add to $scope.
         http.get("ajax/getTasks.php", {params: {id: scope.id}})
         .success(function(tasks){
             scope.data.tasks = tasks;
-            createTasklist();
+            //3. Once complete build the tasklist
+            getDailyTasks();
         });
     };
 
-    function checkDates(tasks){
-        // check tasks and return only list of those that fit in time 
-        // period, else return nothing.
-        var active = [];
-        scope.tasksFound = false;
-        var start = new Date().setDate(today.getDate());
-        var end = new Date().setDate(today.getDate()+days);
-        for (var j=0; j < tasks.length; j++){
-            if(tasks[j].start_date*1000 <= end && (tasks[j].end_date*1000 >= start || tasks[j].end_date == null)){
-                active.push(tasks[j]);
-                scope.tasksFound = true;
-            }
+    function getTasksDone(id, date){
+        var taskDates = scope.data.taskDates; //Completed tasks.
+        for(var taskDate in taskDates){
+        //     if(taskDate = date){
+        //         return 1;
+        //     }
         }
-        if(scope.tasksFound == false){
-            return("Nothing found");
-        }
-        
-        for(var i = 0; i < days; i++){
-            console.log("hello");
-        }
-        return(active);
-    }
+        return 0;
+    };
 
-    function createTasklist(){
+    function getDailyTasks(){
+        // Populate days object for current time period.
+        // day => date => tasksList => task done
         var tasks = scope.data.tasks;
-        var actTasks = checkDates(tasks);
-
-
-        scope.data.dates = []; // Clear dates array
-        // populate with dates
+        var dateList = {};        
         for(var i = 0; i < days; i++) {
-            var day = {};
-            day.date = new Date().setDate(today.getDate() + i);
-            day.listOfTasks = [];
-            for(var j = 0; j < actTasks.length; j++){
-                // console.log(j);
-                var task = actTasks[j];
-                var start = task['start_date']*1000;
-                var end = task['end_date']*1000;
-                var taskInfo = {};
-                taskInfo.name = task.task;
-                // console.log(task.task);
-                // if(start <= day.date &&(end == null || end >= day.date)){
-                //     var taskInfo = {};
-                //     taskInfo.name = task.task;
-                //     taskInfo.status = 0;
-                // }
-                day.listOfTasks.push(taskInfo);
-                // console.log(day.dailyTasks);
+            var now = new Date().setDate(today.getDate() + i);
+            // Create tasks list
+            var taskList = [];
+            for (var j=0; j < tasks.length; j++){
+                var start = tasks[j].start_date;
+                var end = tasks[j].end_date;
+                if(start <= now && (end == null || end > now)){
+                    taskList[j] = {
+                        name: tasks[j].task,
+                        status: getTasksDone(tasks[j].id, now),
+                        start_date: tasks[j].start_date,
+                        end_date: tasks[j].end_date
+                    };
+                }
             }
-            scope.data.dates.push(day);
+            if(Object.keys(taskList).length > 0){
+                dateList[now] = taskList;
+            }
         }
-        // console.log(scope.data.dates);
+        if(Object.keys(dateList).length > 0){
+            scope.data.tasksFound = true;
+            scope.data.days = dateList;
+        }
+        console.log(dateList);
     };
 
     scope.isMon = function(date){
-        var date = new Date(date);
-        if(date.getUTCDay() == 1){
+        var date = parseInt(date);
+        var day = new Date(date);
+        if(day.getUTCDay() == 1){
             return true;
         } else {
             return false;

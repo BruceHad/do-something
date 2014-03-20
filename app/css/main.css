@@ -47,6 +47,46 @@ body {
     background-color: #f5f5f5;
 }
 
+/* Tools 
+------------------------*/
+.task .tools {
+}
+
+.tools a {
+    display:block;
+    float:left;
+    width: 16px; height: 16px;
+    margin: 1px;
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+.tools .done {
+    /*border:2px solid red;*/
+    background:url('../img/done16.png');
+}
+
+.tools .not-done{
+    background:url('../img/notdone16.png');
+}
+
+.edit {
+    background:url('../img/edit16.png');
+}
+
+.delete {
+    background:url('../img/bin16.png');
+}
+
+.hidden {
+    display:none;
+}
+
+.taskdone {
+    background-color: #ccc;
+    color: #888;
+}
+
 
 
 

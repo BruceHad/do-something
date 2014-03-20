@@ -30,10 +30,26 @@ create table if not exists `tasks`(
 
 -- Insert tasks into table
 insert into `tasks` 
-    (`task`, `user_id`, `start_date`)
+    (`id`, `task`, `user_id`, `start_date`)
 values 
-    ('First task', 2, 1393362953),
-    ('Another task', 2, 1388534400)
+    (1, 'First task',   2, 1393362953),
+    (2, 'Another task', 2, 1388534400)
+;
+
+-- Creates tasks_done table
+create table if not exists `tasks_done`(
+    `id` int(11) not null auto_increment,
+    `task_id` int(11) not null,
+    `date_complete` int(11) not null,
+    primary key (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5
+;
+
+insert into `tasks_done` 
+    (`id`, `task_id`, `date_complete`)
+values 
+    (1, 1, 1393362953),
+    (2, 2, 1388534400)
 ;
 
 ----------------------------------

@@ -40,7 +40,7 @@ values
 create table if not exists `tasks_done`(
     `id` int(11) not null auto_increment,
     `task_id` int(11) not null,
-    `date_complete` int(11) not null,
+    `date_complete` date not null,
     primary key (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5
 ;
@@ -48,8 +48,8 @@ create table if not exists `tasks_done`(
 insert into `tasks_done` 
     (`id`, `task_id`, `date_complete`)
 values 
-    (1, 1, 1393362953),
-    (2, 2, 1388534400)
+    (1, 1, str_to_date('01-JAN-2014','%d-%M-%Y')),
+    (2, 2, str_to_date('01-FEB-2014','%d-%M-%Y'))
 ;
 
 ----------------------------------

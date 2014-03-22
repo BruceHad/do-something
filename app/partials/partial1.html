@@ -12,17 +12,17 @@
         </div>
 
         <div class="col col-md-8 three">
-            <div class="row task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: isDone(key, day.date)}"> 
+            <div class="row task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}"> 
                 <div class="col-md-6 name">
                     {{task.name}}
-                    <small>({{task.start_date * 1000 | date: 'dd MMM yy' }} - 
-                    {{task.end_date == null && " " || task.end_date * 1000 | date: 'dd MMM yy'}})</small>
+                    <small>({{task.start_date | date: 'dd MMM yy' }} - 
+                    {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}})</small> 
                 </div>
                 <div class="col-md-6 tools">
-                    <a href="" ng-click="doneTask(key, day.date, true)" class="tickbox done" ng-class="{hidden: isDone(key, day.date)}" >Done</a>
-                    <a href="" ng-click="doneTask(key, day.date, false)" class="tickbox not-done" ng-class="{hidden: ! isDone(key, day.date)}">Not Done</a>
-                    <a href="" ng-click="editTask(key)" class="edit">Edit</a>
-                    <a href="" ng-click="deleteTask(key)" class="delete">Delete</a>
+                    <a href="" ng-click="taskDone(task.id, date, true)" class="tickbox done" ng-class="{hidden: task.done}" >Done</a>
+                    <a href="" ng-click="taskDone(task.id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
+                    <a href="" ng-click="editTask(task.id)" class="edit">Edit</a>
+                    <a href="" ng-click="deleteTask(task.id)" class="delete">Delete</a>
                 </div>
             </div><!-- inner row-->
         </div>

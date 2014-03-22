@@ -11,8 +11,7 @@ if(isset($_GET['id'])){
 $query=mysql_query("
 SELECT
     task_id,
-    date_complete,
-    user_id
+    date_complete
 from tasks_done
     inner join tasks
     on (tasks.id = tasks_done.task_id)

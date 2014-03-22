@@ -33,6 +33,7 @@ To add dates in javascript:
 
 var myDate = new Date();
 myDate.setDate(myDate.getDate() + AddDaysHere);
+myDate.setHours(0,0,0,0) - truncates the date to midnight.
 
 
 

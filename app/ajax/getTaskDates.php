@@ -10,6 +10,7 @@ if(isset($_GET['id'])){
 
 $query=mysql_query("
 SELECT
+    tasks_done.id,
     task_id,
     date_complete
 from tasks_done

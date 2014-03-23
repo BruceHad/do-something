@@ -1,10 +1,10 @@
 'use strict';
 
-Array.prototype.remove = function(from, to) {
-    var rest = this.slice((to || from) + 1 || this.length);
-    this.length = from < 0 ? this.length + from : from;
-    return this.push.apply(this, rest);
-};
+// Array.prototype.remove = function(from, to) {
+//     var rest = this.slice((to || from) + 1 || this.length);
+//     this.length = from < 0 ? this.length + from : from;
+//     return this.push.apply(this, rest);
+// };
 
 function getStartDate(date){
     // Return first monday of the current week
@@ -63,6 +63,7 @@ angular.module('myApp.controllers', [])
 .controller('TasksCtrl', ['$scope', '$http', function(scope, http)  {
     scope.data = {};
     scope.data.tasksFound = false;
+    scope.data.addingTask = false;
     var days = 14;
     var today = getStartDate(new Date());
 
@@ -79,25 +80,67 @@ angular.module('myApp.controllers', [])
         // user.
         http.get("ajax/getTaskDates.php", {params: {id: scope.id}})
         .success(function(taskDates){
-            scope.data.taskDates = taskDates;
+            // console.log(taskDates);
+            if(taskDates == 'null'){
+                scope.data.taskDates = [];
+            } else {
+                scope.data.taskDates = taskDates;
+            }
         });
         // 2. Get task and add to $scope.
         http.get("ajax/getTasks.php", {params: {id: scope.id}})
         .success(function(tasks){
-            scope.data.tasks = tasks;
-            //3. Once complete build the tasklist
-            getDailyTasks();
+            if(tasks == 'null'){
+                scope.data.tasks = [];
+            } else {
+                scope.data.tasks = tasks;
+                //3. Once complete build the tasklist
+                getDailyTasks();
+            }
         });
     };
 
-    function getTasksDone(id, date){
+    function addTask(task){
+        console.log(task.name);
+        http.get("ajax/addTask.php?task="+task.name+
+            "&start_date="+task.start_date+
+            "&end_date="+task.end_date+
+            "&user_id="+scope.id).success(function(data){
+           console.log(data);
+       });
+    }
+
+    function addTaskDate(task_id, date) {
+        http.get("ajax/addTaskDate.php?task_id="+task_id+"&date="+date).success(function(data){
+           console.log(data);
+       });
+    };
+
+    function delTaskDate(task_id, date) {
+        http.get("ajax/delTaskDate.php?task_id="+task_id+"&date="+date).success(function(data){
+           console.log(data);
+       });
+    };
+
+    // function getTaskDone(id, dateStr){
+    //     var taskDates = scope.data.taskDates; //Completed tasks.
+    //     for(var i in taskDates){
+    //         if(taskDates[i].task_id == id && taskDates[i].date_complete == dateStr){
+    //             return i;
+    //         }
+    //     }
+    // }
+
+    
+
+    function isTaskDone(id, date){
         var dateStr = padStr(date.getFullYear()) + '-' +
                   padStr(1 + date.getMonth()) + '-' +
                   padStr(date.getDate());
         var taskDates = scope.data.taskDates; //Completed tasks.
-        for(var i=0; i < taskDates.length; i++){
+        for(var i in taskDates){
             if(taskDates[i].task_id == id && taskDates[i].date_complete == dateStr){
-                return true;
+                return i;
             }
         }
         return false;
@@ -124,7 +167,7 @@ angular.module('myApp.controllers', [])
                 if(start <= now && end > now){
                     taskList[j] = {
                         name: tasks[j].task,
-                        done: getTasksDone(tasks[j].id, now),
+                        done: isTaskDone(tasks[j].id, now),
                         start_date: tasks[j].start_date,
                         end_date: tasks[j].end_date,
                         id: tasks[j].id
@@ -137,13 +180,9 @@ angular.module('myApp.controllers', [])
         }
         if(Object.keys(dateList).length > 0){
             scope.data.tasksFound = true;
-            scope.data.days = dateList;
+            scope.data.dateList = dateList;
         }
     };
-
-    function getId(obj, search){
-
-    }
 
     scope.isMon = function(date){
         var date = parseInt(date);
@@ -154,7 +193,7 @@ angular.module('myApp.controllers', [])
             return false;
         }
     };
-    scope.taskDone = function(id, date, isDone) {
+    scope.taskDone = function(task_id, date, isDone) {
         var date = new Date(parseInt(date));
         var dateStr = padStr(date.getFullYear()) + '-' +
                   padStr(1 + date.getMonth()) + '-' +
@@ -162,16 +201,43 @@ angular.module('myApp.controllers', [])
         var tasksDone = scope.data.taskDates;
         
         if(isDone) {
+            // console.log(tasksDone);
             tasksDone.push({
                 date_complete: dateStr,
-                task_id: id
+                task_id: task_id
             });
+            addTaskDate(task_id, dateStr);
         } else {
-        //     var i = tasksDone[id].indexOf(date);
-        //     tasksDone[id].splice(i, 1);
+            var id = isTaskDone(task_id, date);
+            // console.log(id);
+            // console.log(tasksDone[id]);
+            delTaskDate(task_id, dateStr);
+            delete tasksDone[id];
+            
         }
-        // update("doneTask");
-        console.log(tasksDone);
+        getDailyTasks();
+    };
+    scope.addTask = function() {
+        if(typeof scope.data.taskKey == 'undefined') {
+            var task = {
+                end_date: scope.data.endDate,
+                start_date: scope.data.startDate,
+                name: scope.data.taskName,
+            };
+            addTask(task);
+        } else {
+            // tasks.push({
+            //     name: scope.taskName,
+            //     start_date: today,
+            //     end_date: null
+            // });
+        }
+        scope.formHidden = true;
+        delete scope.taskKey;
+        delete scope.taskName;
+        delete scope.startDate; 
+        delete scope.endDate;
+        // update("addTask");
     };
 }])
 ;

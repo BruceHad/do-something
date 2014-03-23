@@ -1,24 +1,45 @@
 <div class="container" id="tasklist" ng-hide="! loggedin || ! data.tasksFound">
-    <h2>Task list for <strong>{{username}}</strong>({{id}})</h2>
-    <div class="row clearfix" ng-repeat="(date, tasks) in data.days" ng-class="{weekend: isWeekend(day.date)}">
-        <div class="col col-md-2 one">
+    <div id="adding-task" ng-show="data.addingTask">
+        <h3>Add new task</h3>
+         <form ng-submit="addTask()">
+            <input type="text" 
+                ng-model="data.taskName" 
+                placeholder="Task name" />
+            <input type="text" 
+                ng-model="data.taskKey" 
+                placeholder="Add New Task" 
+                class="hidden" />
+            <input type="text" 
+               ng-model="data.startDate"
+               placeholder="yyyy-mm-dd">
+            <input type="text" 
+               ng-model="data.endDate"
+               placeholder="yyyy-mm-dd">
+            <input type="submit" id="submit" value="Submit">
+            <input type="button" id="cancel" value="Cancel" 
+                ng-click="data.addingTask = ! data.addingTask" />
+        </form>
+    </div>
+    <h2>Task list for <strong>{{username}}</strong><a class="add" href ng-click="data.addingTask = ! data.addingTask">+</a></h2>
+    <div class="row clearfix" ng-repeat="(date, tasks) in data.dateList" ng-class="{weekend: isWeekend(day.date)}">
+        <div class="col col-xs-2 one">
             <span ng-class="{hidden: ! isMon(date)}">
                 {{date | date: 'dd-MMM'}}
             </span>
         </div>
 
-        <div class="col col-md-2 two">
+        <div class="col col-xs-2 two">
             {{date | date: 'EEE'}}
         </div>
 
-        <div class="col col-md-8 three">
+        <div class="col col-xs-8 three">
             <div class="row task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}"> 
-                <div class="col-md-6 name">
+                <div class="col-xs-8 name">
                     {{task.name}}
                     <small>({{task.start_date | date: 'dd MMM yy' }} - 
                     {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}})</small> 
                 </div>
-                <div class="col-md-6 tools">
+                <div class="col-xs-4 tools">
                     <a href="" ng-click="taskDone(task.id, date, true)" class="tickbox done" ng-class="{hidden: task.done}" >Done</a>
                     <a href="" ng-click="taskDone(task.id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
                     <a href="" ng-click="editTask(task.id)" class="edit">Edit</a>

@@ -55,23 +55,40 @@ body {
     /*border:1px solid red;*/
 }
 
+/* Add Task Form
+------------------------*/
 #adding-task {
     border: 1px solid #ddd;
     border-radius: 5px;
-    position: absolute;
-    width: 300px;
-    height: 200px;
+    padding: 10px;
     margin: 60px auto;
-    padding: 20px;
     background-color: rgba(255,255,255,0.9);
     z-index: 100;
+    position: absolute;
+    width: 600px;
 }
 
 #adding-task h3 {
     margin: 0; padding:0;
 }
 
-/* Tools 
+#adding-task input {
+    max-width: 300px;
+    padding: 5px;
+}
+
+input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+}
+ 
+input.ng-valid.ng-dirty {
+    background-color: #78FA89;
+}
+
+.form-horizontal {
+    /*background-color: blue;*/
+}
+/* The Task List 
 ------------------------*/
 .task .tools {
 }

@@ -1,23 +1,51 @@
 <div class="container" id="tasklist" ng-hide="! loggedin || ! data.tasksFound">
     <div id="adding-task" ng-show="data.addingTask">
-        <h3>Add new task</h3>
-         <form ng-submit="addTask()">
-            <input type="text" 
-                ng-model="data.taskName" 
-                placeholder="Task name" />
-            <input type="text" 
-                ng-model="data.taskKey" 
+        <form name="addTask" novalidate ng-submit="newTask(addTask)" 
+        class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="task-name">Name</label>
+                <input type="text" 
+                    name="task-name" id="task-name" 
+                    class="col-sm-9" class="form-control"
+                    ng-model="data.formData.taskName" 
+                    minlength="1" maxlength="50" 
+                    placeholder="Task name" required />
+            </div>
+            <!-- <input type="text" 
+                ng-model="data.formData.taskKey" 
                 placeholder="Add New Task" 
-                class="hidden" />
-            <input type="text" 
-               ng-model="data.startDate"
-               placeholder="yyyy-mm-dd">
-            <input type="text" 
-               ng-model="data.endDate"
-               placeholder="yyyy-mm-dd">
-            <input type="submit" id="submit" value="Submit">
-            <input type="button" id="cancel" value="Cancel" 
-                ng-click="data.addingTask = ! data.addingTask" />
+                class="hidden" /> -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="start-date">Start Date</label>
+                <input type="date" 
+                    name="start-date" id="start-date" 
+                    class="col-sm-9" class="form-control"
+                    ng-model="data.formData.startDate"
+                    min="2012-01-01" max="2020-01-01"
+                    placeholder="yyyy-mm-dd" required />
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="end-date">End Date</label>
+                <input type="date" 
+                    name="end-date" id="end-date" 
+                    class="col-sm-9" class="form-control"
+                    ng-model="data.formData.endDate"
+                    min="2012-01-01" max="2020-01-01"
+                    placeholder="yyyy-mm-dd" required />
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-11">
+                    <input type="submit" id="submit" value="Submit" />
+                    <input type="button" id="cancel" value="Reset" 
+                ng-click="clearForm(addTask)" />
+
+            <p><pre>{{data.formData | json}}</pre></p>
+            <p>Pristine: {{addTask.$pristine}}, Valid: {{addTask.$valid}}, Dirty: {{addTask.$dirty}}</p>
+                </div>
+            </div>
+            <div class="error">
+                <p>{{data.formError}}</p>
+            </div>
         </form>
     </div>
     <h2>Task list for <strong>{{username}}</strong><a class="add" href ng-click="data.addingTask = ! data.addingTask">+</a></h2>

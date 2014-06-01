@@ -2,7 +2,7 @@
 
  if(tasks[j].start_date <= day.date
                     && (tasks[j].end_date >= day.date
-                        || tasks[j].end_date == null)){
+                        || tasks[j].end_date == null)){b
 
 ## 0. Description
 
@@ -104,6 +104,20 @@ dates = [
     ...
 ]
 
+## Add Task
+
+Click the + plus button reveals the Add Task form simply by switching the addingTask flag. If the form is open, then clicking the addingTask flag will hide it.
+
+    ng-click="data.addingTask = ! data.addingTask"
+
+#adding-task is form showing taskName, taskKey, startDate and endDate.
+
+There is basic HTML validation on the form making sure that text (max of 200 chars) and date field are in the correct format. There is additional validation that checks that startDate is before endDate.
+
+On clicking submit the addTask() function is called.
+
+On clicking cancel, the form is cleared and set back to $pristine.
+
 
 ## Notes
 
@@ -132,11 +146,37 @@ So this needs the $resource service:
 
 ### To Do
 
-1. Add Tasks
+1. Make dates more consistent.
+2. Rename 'done'
+3. Redesign isTaskDone and getTaskDone as they are very similar.
 
-2. Edit Tasks
-3. Save Data
-4. Load Data
+## Angular Notes
+
+### Forms
+
+input, select and textarea are input controls that let users enter data.
+
+form groups those controls into a form.
+
+ngModel is a directive that provides two-way binding to sync the model (scope) and the view. It also provides an API for other directives to augment its behavior.
+
+(novalidate is an html5 attribute for the form element that can be used to indicate that the form shouldn't be validated. We can use this to prevent the default validation when providing our own.)
+
+(angular.copy makes a copy of an object, rather and creating a reference to the same object.)
+
+For styling the form when validating, ngModel proves: ng-valid, ng-invalid, ng-pristine and ng-dirty. $setPristine can be used to reset the form back to pristine state. ng-invalid can be used in combination with ng-dirty to prevent the validation from displaying until the user starts entering data.
+
+form is an instance of formController and ngModel is an instance of ngModelController. In both instances, these can be published to the scope using the name attribute. This allows us to extend the form in various ways. e.g. the submit button can be disabled until a valid or changed input is entered (for example if the form is to update account details).
+
+    ng-disabled="myForm.$invalid || isUnchanged(formdata)"
+    
+Basic validation of standard HTML elements text, url, number, email, radio and checkbox is provided with attributes such as required, pattern, minlength, maxlength, min, max.
+
+Custom validation can be set up with a custom directive.
+
+Validation can occur in two places: Model to view update or view to model update.
+
+## Javascript Notes
 
 
 

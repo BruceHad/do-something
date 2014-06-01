@@ -62,8 +62,9 @@ angular.module('myApp.controllers', [])
 }])
 .controller('TasksCtrl', ['$scope', '$http', function(scope, http)  {
     scope.data = {};
+    scope.data.formData = {};
     scope.data.tasksFound = false;
-    scope.data.addingTask = false;
+    scope.data.addingTask = true;
     var days = 14;
     var today = getStartDate(new Date());
 
@@ -100,14 +101,19 @@ angular.module('myApp.controllers', [])
         });
     };
 
-    function addTask(task){
-        console.log(task.name);
-        http.get("ajax/addTask.php?task="+task.name+
-            "&start_date="+task.start_date+
-            "&end_date="+task.end_date+
-            "&user_id="+scope.id).success(function(data){
-           console.log(data);
-       });
+    function addTask(){
+        var name = scope.data.add.taskName;
+        var start_date = scope.data.add.startDate;
+        var end_date = scope.data.add.endDate;
+        console.log(name, start_date, end_date, scope.id);
+        // http.get("ajax/addTask.php?task="+name+
+        //     "&start_date="+start_date+
+        //     "&end_date="+end_date+
+        //     "&user_id="+scope.id).success(function(data){
+        //    console.log(data);
+        // });
+        scope.data.add = {};
+        scope.data.addingTask = false;
     }
 
     function addTaskDate(task_id, date) {
@@ -217,27 +223,34 @@ angular.module('myApp.controllers', [])
         }
         getDailyTasks();
     };
-    scope.addTask = function() {
-        if(typeof scope.data.taskKey == 'undefined') {
-            var task = {
-                end_date: scope.data.endDate,
-                start_date: scope.data.startDate,
-                name: scope.data.taskName,
-            };
-            addTask(task);
-        } else {
+    scope.newTask = function() {
+        var success = false;
+        var valid = false;
+        // validate
+        console.log(scope.data.formData);
+        // if(typeof scope.data.taskKey == 'undefined') {
+        //     var task = {
+        //         end_date: scope.data.endDate,
+        //         start_date: scope.data.startDate,
+        //         name: scope.data.taskName,
+        //     };
+        //     addTask(task);
+        // } else {
             // tasks.push({
             //     name: scope.taskName,
             //     start_date: today,
             //     end_date: null
             // });
+        // }
+        if(success){
+            scope.data.formData = {};
+            form.$setPristine();
         }
-        scope.formHidden = true;
-        delete scope.taskKey;
-        delete scope.taskName;
-        delete scope.startDate; 
-        delete scope.endDate;
-        // update("addTask");
+    };
+
+    scope.clearForm = function(form){
+        scope.data.formData = {};
+        form.$setPristine();
     };
 }])
 ;

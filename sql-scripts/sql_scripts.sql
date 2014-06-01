@@ -22,8 +22,8 @@ create table if not exists `tasks`(
     `id` int(11) not null auto_increment,
     `task` varchar(200) not null,
     `user_id` int(11) not null,
-    `start_date` int(11) not null,
-    `end_date` int(11),
+    `start_date` date not null,
+    `end_date` date,
     primary key (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5
 ;

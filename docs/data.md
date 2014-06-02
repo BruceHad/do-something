@@ -1,16 +1,8 @@
-taskDates is an array that stores a list of ids and dates for any completed tasks, for the given user.
+There are two tables storing permanent data: tasks and tasks_done.
 
-scope.data.taskDates = [
-    0: {
-        date_complete: "2014-01-01",
-        task_id: "1"
-    },
-    1: {..}
-];
+$scope.data.tasks is an array that stores a list of tasks (taken from the tasks table) for the logged in user. It stores the id, user_id, task, start and end dates.
 
-tasks is an array that stores a list of tasks for the given user. I stores the id, user_id, task, start and end dates.
-
-scope.data.tasks = [
+$scope.data.tasks = [
     0: {
         end_date: "2014-12-01", //can be null
         id: "1",
@@ -21,14 +13,34 @@ scope.data.tasks = [
     1: {...}
 ];
 
-days is an object that stores the tasks to display for the current date period. It is built by the getDailyTasks function. It contains a list of dates (timestamp) each containing a list of task objects, which contain id, name, start and end dates and the 'done' flag. 
 
-scope.data.dateList = {
+$scope.data.tasks_done is an array that stores a list of task ids and the dates the task was completed.
+
+$scope.data.tasks_done = [
+    0: {
+        date_complete: "2014-01-01",
+        task_id: "1"
+    },
+    1: {..}
+];
+
+These two arrays are used to build the task_list object for display.
+
+$scope.data.task_list is an internal object that stores the tasks to be displayed. 
+
+It is built by the buildTaskList function. 
+
+It contains a list of dates (timestamps) for each day in the current date period. Each day contains an array of: task_id, task_name, start_date, end_date and the task_done flag. 
+
+scope.data.task_list = {
     1395619200000: [
-        done: false,
+        task_done: false,
         end_date: null,
-        id: "1",
-        name: "task name",
+        task_id: "1",
+        task_name: "task name",
         start_date: "2014-01-01"
+    ],
+    1395619200000: [
+    ...
     ],
 };

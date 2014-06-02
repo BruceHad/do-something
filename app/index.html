@@ -35,16 +35,16 @@
           <li><a href="#/main" class="active">Do Something</a></li>
           <li><a href="#/about">About</a></li>
         </ul>
-        <form class="navbar-form navbar-right" ng-submit="getUsers(user_name)">
-          <div ng-hide="loggedin">
+        <form class="navbar-form navbar-right" name="login_form" ng-submit="login(login_form)">
+          <div ng-hide="main.loggedin">
             <div class="form-group">
-              <input type="text" placeholder="Enter Username" class="form-control" ng-model="username">
+              <input type="text" placeholder="Enter Username" class="form-control" ng-model="main.form_data.user_name">
             </div>
-            <button type="submit" class="btn">Sign in</button>
-            <p>{{userMessage}}</p>
+            <button type="submit" class="btn">Log In</button>
+            <p>{{user_message}}</p>
           </div>
-          <div ng-hide="! loggedin">
-            <p>Logged in as <strong>{{username}}</strong> <a href="#" ng-click="logOut()">Logout</a></p>
+          <div ng-hide="! main.loggedin">
+            <p>Logged in as <strong>{{main.user_name}}</strong><a href="#" ng-click="logout()">Logout</a></p>
           </div>
         </form>
 

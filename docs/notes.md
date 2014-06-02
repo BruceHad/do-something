@@ -34,13 +34,38 @@ These use the [Angular $http service][1]
 
 [1]:http://docs.angularjs.org/api/ng/service/$http
 
-## 2. Login
+## 2. MyCtrl - Login & Logout
 
-User enters a username in the login screen. If a user isn't logged in, the scripts can't retrieve tasks for anyone, so the screen in empty.
+In the index.html view, user can enter a user name and log in. While no-one is logged in, the scripts can't retrieve tasks for anyone, the task list parts of the view are hidden.
 
-On login, the scripts return the tasks and task completion from the database.
+MyCtrl has a $scope.main object containing a $scope.main.form_data object plus user_id and loggedin variables used across the scope of the app.
 
-## 3. Front End
+The $scope.login function first checks for a matching user on the data. If it finds one is set us the user data, plus creates a cookie to hold that data persistently.
+
+If no match is found a user_message is set stating 'Invalid username and the form is cleared'.
+
+Note: There is a watch function elsewhere looking for changes to login user_ids and that builds the task list when a user logs in. The view also has various ng-show/ng-hide sections that will show/hide depending on main.loggedin value.
+
+Logout is simple. When the user clicks the logout function, the cookies are cleared, the $scope data is cleared and reset back to normal.
+
+## 3. TaskCtrl - Display and Edit Task Lists
+
+TaskCtrl contains the $scope.data object.
+
+The task list requires a date period to display. By default that is set as from the monday of the current week, plus 14 days. But users can select different date periods.
+
+The controller watches for any changes to the user id, so that when a user logs in or logs out it knows to build and display the task list for that user. The watcher calls the getTasks function to update the tasks_done and tasks objects from the database.
+
+$scope.data.tasks object is a list of tasks the user has set up. $scope.data.tasks_done is a list of dates that a task has been completed. These are used to build the task_list object that is displayed on screen. (See data.md).
+
+Here is the tricky part. These functions require data from the database, which may take some time.
+
+I've therefore put a watcher on both tasks and tasks_done.
+
+
+
+
+
 
 ## 4. Controllers
 
@@ -114,9 +139,9 @@ Click the + plus button reveals the Add Task form simply by switching the adding
 
 There is basic HTML validation on the form making sure that text (max of 200 chars) and date field are in the correct format. There is additional validation that checks that startDate is before endDate.
 
-On clicking submit the addTask() function is called.
+On clicking submit the newTask() function is called and the form name passed.
 
-On clicking cancel, the form is cleared and set back to $pristine.
+On clicking cancel, the form is cleared and set back to $pristine. 
 
 
 ## Notes

@@ -1,26 +1,27 @@
-<div class="container" id="tasklist" ng-hide="! loggedin || ! data.tasksFound">
+<div class="container" id="tasklist" ng-hide="! main.loggedin || ! data.tasksFound">
     <div id="adding-task" ng-show="data.addingTask">
-        <form name="addTask" novalidate ng-submit="newTask(addTask)" 
+        <form name="add_task_form" novalidate ng-submit="newTask(add_task_form)" 
         class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="task-name">Name</label>
                 <input type="text" 
                     name="task-name" id="task-name" 
                     class="col-sm-9" class="form-control"
-                    ng-model="data.formData.taskName" 
+                    ng-model="data.form_data.task_name" 
                     minlength="1" maxlength="50" 
                     placeholder="Task name" required />
             </div>
-            <!-- <input type="text" 
-                ng-model="data.formData.taskKey" 
-                placeholder="Add New Task" 
-                class="hidden" /> -->
+            <input type="text" 
+                ng-model="data.form_data.task_key" 
+                placeholder="Add New Task" />
+            <input type="text"
+                ng-model="main.user_id" />
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="start-date">Start Date</label>
                 <input type="date" 
                     name="start-date" id="start-date" 
                     class="col-sm-9" class="form-control"
-                    ng-model="data.formData.startDate"
+                    ng-model="data.form_data.start_date"
                     min="2012-01-01" max="2020-01-01"
                     placeholder="yyyy-mm-dd" required />
             </div>
@@ -29,7 +30,7 @@
                 <input type="date" 
                     name="end-date" id="end-date" 
                     class="col-sm-9" class="form-control"
-                    ng-model="data.formData.endDate"
+                    ng-model="data.form_data.end_date"
                     min="2012-01-01" max="2020-01-01"
                     placeholder="yyyy-mm-dd" required />
             </div>
@@ -48,7 +49,7 @@
             </div>
         </form>
     </div>
-    <h2>Task list for <strong>{{username}}</strong><a class="add" href ng-click="data.addingTask = ! data.addingTask">+</a></h2>
+    <h2>Task list for <strong>{{user_name}}</strong><a class="add" href ng-click="data.addingTask = ! data.addingTask">+</a></h2>
     <div class="row clearfix" ng-repeat="(date, tasks) in data.dateList" ng-class="{weekend: isWeekend(day.date)}">
         <div class="col col-xs-2 one">
             <span ng-class="{hidden: ! isMon(date)}">
@@ -77,14 +78,14 @@
         </div>
     </div><!-- outer row -->
 </div><!-- tasklist container -->
-<div class="container" ng-hide="loggedin">
+<div class="container" ng-hide="main.loggedin">
     <div class="row">
         <h2>Do Something Everyday</h2>
         <p>A to-do list for daily tasks.</p>
         <p>Please log in.</p>
     </div><!-- row -->
 </div><!-- login container -->
-<div class="container" ng-hide="! loggedin || data.tasksFound">
+<div class="container" ng-hide="! main.loggedin || data.tasksFound">
     <div class="row">
         <h2>Do Something Everyday</h2>
         <p>A to-do list for daily tasks.</p>

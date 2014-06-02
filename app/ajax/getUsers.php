@@ -2,7 +2,7 @@
 
 require_once 'db.php'; // The mysql database connection script
 
-if(isset($_GET['name'])){
+if(isset($_GET)){
     $name = $_GET['name'];
 }
 

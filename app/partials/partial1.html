@@ -1,94 +1,76 @@
-<div class="container" id="tasklist" ng-hide="! main.loggedin || ! data.tasksFound">
-    <div id="adding-task" ng-show="data.addingTask">
-        <form name="add_task_form" novalidate ng-submit="newTask(add_task_form)" 
-        class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="task-name">Name</label>
-                <input type="text" 
-                    name="task-name" id="task-name" 
-                    class="col-sm-9" class="form-control"
-                    ng-model="data.form_data.task_name" 
-                    minlength="1" maxlength="50" 
-                    placeholder="Task name" required />
-            </div>
-            <input type="text" 
-                ng-model="data.form_data.task_key" 
-                placeholder="Add New Task" />
-            <input type="text"
-                ng-model="main.user_id" />
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="start-date">Start Date</label>
-                <input type="date" 
-                    name="start-date" id="start-date" 
-                    class="col-sm-9" class="form-control"
-                    ng-model="data.form_data.start_date"
-                    min="2012-01-01" max="2020-01-01"
-                    placeholder="yyyy-mm-dd" required />
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="end-date">End Date</label>
-                <input type="date" 
-                    name="end-date" id="end-date" 
-                    class="col-sm-9" class="form-control"
-                    ng-model="data.form_data.end_date"
-                    min="2012-01-01" max="2020-01-01"
-                    placeholder="yyyy-mm-dd" required />
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-1 col-sm-11">
-                    <input type="submit" id="submit" value="Submit" />
-                    <input type="button" id="cancel" value="Reset" 
-                ng-click="clearForm(addTask)" />
-
-            <p><pre>{{data.formData | json}}</pre></p>
-            <p>Pristine: {{addTask.$pristine}}, Valid: {{addTask.$valid}}, Dirty: {{addTask.$dirty}}</p>
-                </div>
-            </div>
-            <div class="error">
-                <p>{{data.formError}}</p>
-            </div>
-        </form>
-    </div>
-    <h2>Task list for <strong>{{user_name}}</strong><a class="add" href ng-click="data.addingTask = ! data.addingTask">+</a></h2>
-    <div class="row clearfix" ng-repeat="(date, tasks) in data.dateList" ng-class="{weekend: isWeekend(day.date)}">
-        <div class="col col-xs-2 one">
-            <span ng-class="{hidden: ! isMon(date)}">
-                {{date | date: 'dd-MMM'}}
-            </span>
-        </div>
-
-        <div class="col col-xs-2 two">
-            {{date | date: 'EEE'}}
-        </div>
-
-        <div class="col col-xs-8 three">
-            <div class="row task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}"> 
-                <div class="col-xs-8 name">
-                    {{task.name}}
-                    <small>({{task.start_date | date: 'dd MMM yy' }} - 
-                    {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}})</small> 
-                </div>
-                <div class="col-xs-4 tools">
-                    <a href="" ng-click="taskDone(task.id, date, true)" class="tickbox done" ng-class="{hidden: task.done}" >Done</a>
-                    <a href="" ng-click="taskDone(task.id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
-                    <a href="" ng-click="editTask(task.id)" class="edit">Edit</a>
-                    <a href="" ng-click="deleteTask(task.id)" class="delete">Delete</a>
-                </div>
-            </div><!-- inner row-->
-        </div>
-    </div><!-- outer row -->
-</div><!-- tasklist container -->
-<div class="container" ng-hide="main.loggedin">
+<div class="container ng-cloak">
     <div class="row">
+        <div class="col col-md-4">
+            <div id="adding-task" ng-show="main.loggedin">
+                <form name="add_task_form" ng-submit="addTask(add_task_form)" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label" for="task-name">Name</label>
+                        <input type="text" name="task-name" id="task-name" class="form-control" ng-model="data.form_data.task_name" minlength="1" maxlength="50" placeholder="Task name" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="task-id">Key</label>
+                        <input type="text" name="task-key" id="task-id" class="form-control" ng-model="data.form_data.task_id" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="start-date">Start Date</label>
+                        <input type="date" name="start-date" id="start-date" class="form-control" ng-model="data.form_data.start_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="end-date">End Date</label>
+                        <input type="date" name="end-date" id="end-date" class="form-control" ng-model="data.form_data.end_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
+                    </div>
+                    <div class="form-group">
+                            <button type="submit" id="submit">Add/Edit Task</button>
+                            <button id="cancel" ng-click="clearForm(add_task_form)">Clear Form</button>
+                    </div>
+
+                    <pre>{{data.form_data | json}}</pre>
+                    <p>Pristine: {{add_task_form.$pristine}}, Valid: {{add_task_form.$valid}}, Dirty: {{add_task_form.$dirty}}</p>
+                    <div class="error" ng-show="data.form_error">
+                        <p>{{data.form_error}}</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col col-md-8">
+            <div id="task-list" ng-show="main.loggedin">
+                <div id="date-period">
+                    <p>Date Period: <a ng-click="changeDate(-14)">&lt;&lt;</a> {{data.start_date | date: 'dd-MMM-yy'}} to {{data.end_date | date: 'dd-MMM-yy'}} <a ng-click="changeDate(14)">&gt;&gt;</a></p>
+                </div>
+                <div class="row clearfix" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
+                    <div class="col col-xs-2 one">
+                        <span ng-class="{hidden: ! isMon(date)}">
+                        {{date | date: 'dd-MMM'}}
+                    </span>
+                    </div>
+
+                    <div class="col col-xs-2 two">
+                        {{date | date: 'EEE'}}
+                    </div>
+
+                    <div class="col col-xs-8 three">
+                        <div class="row task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}">
+                            <div class="col-xs-8 name">
+                                {{task.task_name}}
+                                <small>({{task.start_date | date: 'dd MMM yy' }} - 
+                            {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}}) {{task.done}}</small> 
+                            </div>
+                            <div class="col-xs-4 tools">
+                                <a href="" ng-click="toggleTask(task.task_id, date, true)" class="tickbox done" ng-class="{hidden: task.done}">Done</a>
+                                <a href="" ng-click="toggleTask(task.task_id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
+                                <a href="" ng-click="editTask(task)" class="edit">Edit</a>
+                                <a href="" ng-click="deleteTask(task.task_id)" class="delete">Delete</a>
+                            </div>
+                        </div><!-- inner row-->
+                    </div>
+                </div><!-- outer row -->
+            </div>
+        </div>
+    </div>
+
+    <div ng-hide="main.loggedin">
         <h2>Do Something Everyday</h2>
         <p>A to-do list for daily tasks.</p>
         <p>Please log in.</p>
-    </div><!-- row -->
-</div><!-- login container -->
-<div class="container" ng-hide="! main.loggedin || data.tasksFound">
-    <div class="row">
-        <h2>Do Something Everyday</h2>
-        <p>A to-do list for daily tasks.</p>
-        <p>No tasks found for current period.</p>
-    </div><!-- row -->
-</div><!-- login container -->
+    </div><!-- login container -->
+</div>

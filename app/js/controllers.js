@@ -19,8 +19,6 @@ function padStr(i) {
     return (i < 10) ? "0" + i : "" + i;
 }
 
-/* Controllers */
-
 angular.module('myApp.controllers', [])
 .controller('MyCtrl', ['$scope', '$http',  '$cookieStore', function($scope, $http, $cookieStore) {
     $scope.main = {};
@@ -35,6 +33,7 @@ angular.module('myApp.controllers', [])
     }
     
     $scope.login = function() {
+        $scope.main.user_message = "";
         // Check username against database then logs user in and
         // assign user id.
         var par = {name: $scope.main.form_data.user_name};
@@ -47,7 +46,7 @@ angular.module('myApp.controllers', [])
                 $cookieStore.put('user_id',  response[0].id);
                 $cookieStore.put('user_name', $scope.main.user_name);
             } else {
-                $scope.user_message = "Invalid user name: "+$scope.main.user_name;
+                $scope.main.user_message = "Invalid user name: " + $scope.main.form_data.user_name;
             }
             $scope.main.form_data = {};
         });
@@ -66,31 +65,73 @@ angular.module('myApp.controllers', [])
 }])
 .controller('TasksCtrl', ['$scope', '$http', function($scope, $http)  {
     $scope.data = {};
-    // $scope.data.form_data = {};
+    $scope.data.form_data = {};
     // $scope.data.tasks_found = false;
-    // $scope.data.adding_task = true;
+//     $scope.data.adding_task = true;
     var days = 14;
-    var today = getStartDate(new Date());
+    $scope.data.start_date = getStartDate(new Date());
+    $scope.data.end_date = new Date();
+    $scope.data.end_date.setDate($scope.data.start_date.getDate()+days);
+    getTasks();
 
     // Watcher checks for changes in id to fires getTasks()
     // when user logs in.
     $scope.$watch('main.user_id', function(newvalue, oldvalue) {
         if(newvalue > 0 && newvalue != oldvalue) {getTasks();}
     });
-    $scope.$watch('data.tasks', function(newvalue, oldvalue){
-        console.log(newvalue);
-        console.log($scope.data.tasks);
-        // if(newvalue != oldvalue){
-        //     // buildTaskList;
-        // }
-    }, false);
+    $scope.$watchCollection('data.tasks', function(newvalue, oldvalue){
+        if(newvalue != oldvalue){
+            console.log($scope.data.tasks);
+            console.log($scope.data.tasks_done);
+            console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
+            if(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
+                buildTaskList();
+            }
+        }
+    });
+    
+    $scope.$watchCollection('data.tasks_done', function(newvalue, oldvalue){
+        if(newvalue != oldvalue){
+            console.log($scope.data.tasks);
+            console.log($scope.data.tasks_done);
+            console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
+            if (! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
+                buildTaskList();
+            }
+        }
+    });
+    $scope.addTask = function(form) {
+        // Also used to Edit task if task_id is set
+        var valid = false;
+        // validate
+        $scope.data.form_data.user_id = $scope.main.user_id;
+        var par = $scope.data.form_data;  
+        console.log(par);
+        $http.get("ajax/addTask.php", {params: par}).success(function(response){
+            getTasks();          
+            $scope.clearForm(form);
+            console.log(response);
+        });                                                    
+    };
+    $scope.deleteTask = function(id){
+        $http.get("ajax/deleteTask.php", {params: {task_id: id}}).success(function(response){
+            getTasks();
+            console.log(response);
+        }); 
+    }
+    $scope.editTask = function(task){ 
+        $scope.data.form_data = {
+            start_date: task.start_date,
+            end_date: task.end_date,
+            task_id:task.task_id,
+            task_name: task.task_name
+        };
+    }
 
     function getTasks(){
         // 1. Grab tasks done.
         var par = {id: $scope.main.user_id};
-        // console.log(par);
         $http.get("ajax/getTaskDates.php", {params: par}).success(function(response){
-            // console.log(response);
             if(response == 'null'){
                 $scope.data.tasks_done = [];
             } else {
@@ -98,12 +139,11 @@ angular.module('myApp.controllers', [])
             }
         });
         // 2. Grab tasks.
-        $http.get("ajax/getTasks.php", {params: par}).success(function(response){
+        $http.get("ajax/getTasks.php", {params: par}).success(function(response){            
             if(response == 'null'){
                 $scope.data.tasks = [];
             } else {
                 $scope.data.tasks = response;
-                console.log($scope.data.tasks);
             }
         });
     };
@@ -112,10 +152,11 @@ angular.module('myApp.controllers', [])
         // Populate days object for current time period.
         // day => date => tasksList => task done
         var tasks = $scope.data.tasks;
+        console.log($scope.data.tasks);
         var task_list = {};        
         for(var i = 0; i < days; i++) {
             var now = new Date();
-            now.setDate(today.getDate()+i);
+            now.setDate($scope.data.start_date.getDate()+i);
             now.setHours(0,0,0,0);
             // Create tasks list
             var taskList = [];
@@ -128,11 +169,11 @@ angular.module('myApp.controllers', [])
                 }
                 if(start <= now && end > now){
                     taskList[j] = {
-                        name: tasks[j].task,
+                        task_name: tasks[j].task_name,
                         done: isTaskDone(tasks[j].id, now),
                         start_date: tasks[j].start_date,
                         end_date: tasks[j].end_date,
-                        id: tasks[j].id
+                        task_id: tasks[j].id
                     };
                 }
             }
@@ -144,22 +185,16 @@ angular.module('myApp.controllers', [])
             $scope.data.tasksFound = true;
             $scope.data.task_list = task_list;
         }
+//         console.log(task_list);
     };
+    $scope.changeDate = function(days){
+        $scope.data.start_date.setDate($scope.data.start_date.getDate()+days);
+        $scope.data.end_date.setDate($scope.data.end_date.getDate()+days);
+        getTasks();
+    }
 
-    // function addTask(){
-    //     var name = $scope.data.add.taskName;
-    //     var start_date = $scope.data.add.startDate;
-    //     var end_date = $scope.data.add.endDate;
-    //     console.log(name, start_date, end_date, $scope.main.id);
-    //     // $http.get("ajax/addTask.php?task="+name+
-    //     //     "&start_date="+start_date+
-    //     //     "&end_date="+end_date+
-    //     //     "&user_id="+$scope.main.id).success(function(data){
-    //     //    console.log(data);
-    //     // });
-    //     $scope.data.add = {};
-    //     $scope.data.addingTask = false;
-    // }
+
+
 
     // function addTaskDate(task_id, date) {
     //     $http.get("ajax/addTaskDate.php?task_id="+task_id+"&date="+date).success(function(data){
@@ -184,54 +219,56 @@ angular.module('myApp.controllers', [])
 
     
 
-    // function isTaskDone(id, date){
-    //     var dateStr = padStr(date.getFullYear()) + '-' +
-    //               padStr(1 + date.getMonth()) + '-' +
-    //               padStr(date.getDate());
-    //     var taskDates = $scope.data.tasks_done; //Completed tasks.
-    //     for(var i in taskDates){
-    //         if(taskDates[i].task_id == id && taskDates[i].date_complete == dateStr){
-    //             return i;
-    //         }
-    //     }
-    //     return false;
-    // };
+    function isTaskDone(id, date){
+        var dateStr = padStr(date.getFullYear()) + '-' +
+                  padStr(1 + date.getMonth()) + '-' +
+                  padStr(date.getDate());
+        var taskDates = $scope.data.tasks_done; //Completed tasks.
+        for(var i in taskDates){
+            if(taskDates[i].task_id == id && taskDates[i].date_complete == dateStr){
+                return i;
+            }
+        }
+        return false;
+    };
 
     
 
-    // $scope.isMon = function(date){
-    //     var date = parseInt(date);
-    //     var day = new Date(date);
-    //     if(day.getUTCDay() == 1){
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // };
-    // $scope.taskDone = function(task_id, date, isDone) {
-    //     var date = new Date(parseInt(date));
-    //     var dateStr = padStr(date.getFullYear()) + '-' +
-    //               padStr(1 + date.getMonth()) + '-' +
-    //               padStr(date.getDate());
-    //     var tasksDone = $scope.data.tasks_done;
-        
-    //     if(isDone) {
-    //         // console.log(tasksDone);
-    //         tasksDone.push({
-    //             date_complete: dateStr,
-    //             task_id: task_id
-    //         });
-    //         addTaskDate(task_id, dateStr);
-    //     } else {
-    //         var id = isTaskDone(task_id, date);
-    //         // console.log(id);
-    //         // console.log(tasksDone[id]);
-    //         delTaskDate(task_id, dateStr);
-    //         delete tasksDone[id];
-            
-    //     }
-    //     buildTaskList();
-    // };
+    $scope.isMon = function(date){
+        var date = parseInt(date);
+        var day = new Date(date);
+        if(day.getUTCDay() == 0){
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.toggleTask = function(task_id, date, done) {
+//         console.log(task_id + date + done);
+        var date = new Date(parseInt(date));
+        var date_str = padStr(date.getFullYear()) + '-' +
+                  padStr(1 + date.getMonth()) + '-' +
+                  padStr(date.getDate());
+        console.log(date_str);
+        var par = {"task_id": task_id, "task_date": date_str}
+        if(done) {
+            $http.get("ajax/addTaskDate.php", {params: par}).success(function(response){
+               console.log(response);
+            });
+            $scope.data.tasks_done.push({
+                date_complete: date_str,
+                task_id: task_id
+            });
+        } 
+        else {
+            var id = isTaskDone(task_id, date);
+            $http.get("ajax/delTaskDate.php",{params: par}).success(function(response){
+                console.log(response);
+            });
+            delete $scope.data.tasks_done[id];            
+        }
+    };
+    
     // $scope.addTask = function(form) {
     //     var success = false;
     //     var valid = false;
@@ -243,8 +280,8 @@ angular.module('myApp.controllers', [])
     //         }
     //     };
 
-    // $scope.clearForm = function(form){
-    //     $scope.data.formData = {};
-    //     form.$setPristine();
-    // };
+    $scope.clearForm = function(form){
+        $scope.data.form_data = {};
+        form.$setPristine();
+    };
 }]);

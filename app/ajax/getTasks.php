@@ -9,8 +9,8 @@ if(isset($_GET['id'])){
 }
 
 $query=mysql_query("
-    select id, task, user_id, start_date, end_date 
-    from tasks where user_id = $id;
+    select id, task task_name, user_id, start_date, end_date 
+    from ds_tasks where user_id = $id;
     ") 
     or die(mysql_error());
  

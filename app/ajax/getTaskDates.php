@@ -13,8 +13,8 @@ SELECT
     tasks_done.id,
     task_id,
     date_complete
-from tasks_done
-    inner join tasks
+from ds_tasks_done tasks_done
+    inner join ds_tasks tasks
     on (tasks.id = tasks_done.task_id)
 where user_id = $id;
     ") 

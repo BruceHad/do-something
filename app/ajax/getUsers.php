@@ -7,7 +7,7 @@ if(isset($_GET)){
 }
 
 $query=mysql_query("
-    select id from users 
+    select id from ds_users 
     where username = '$name';
     ") 
     or die(mysql_error());

@@ -4,10 +4,6 @@
 Author's custom styles
 ========================================================================== */
 
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
 /* 
 Allow angular.js to be loaded in body, hiding cloaked elements until 
 templates compile.  The !important is important given that there may be 
@@ -16,83 +12,9 @@ other selectors that are more specific or come later and might alter display.
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
 }
-strong{
-    text-transform:uppercase;
-}
 
-/* Sticky footer styles
--------------------------------------------------- */
-
-html,
-body {
-    height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
-}
-
-/* Wrapper for page content to push down footer */
-#wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    /* Negative indent footer by it's height */
-    margin: 0 auto -60px;
-}
-
-/* Set the fixed height of the footer here */
-#push,
-#footer {
-    height: 60px;
-}
-#footer {
-    background-color: #f5f5f5;
-}
-
-/* Tasklist 
-------------------------*/
-#tasklist a.add {
-    font-size: xx-large;
-    padding: 0 10px;
-    /*border:1px solid red;*/
-}
-
-/* Add Task Form
-------------------------*/
-#adding-task {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 60px auto;
-    background-color: rgba(255,255,255,0.9);
-    z-index: 100;
-    position: absolute;
-    width: 600px;
-}
-
-#adding-task h3 {
-    margin: 0; padding:0;
-}
-
-#adding-task input {
-    max-width: 300px;
-    padding: 5px;
-}
-
-input.ng-invalid.ng-dirty {
-    background-color: #FA787E;
-}
- 
-input.ng-valid.ng-dirty {
-    background-color: #78FA89;
-}
-
-.form-horizontal {
-    /*background-color: blue;*/
-}
 /* The Task List 
 ------------------------*/
-.task .tools {
-}
-
 .tools a {
     display:block;
     float:left;

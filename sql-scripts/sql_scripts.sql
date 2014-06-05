@@ -2,7 +2,7 @@
 -- End Setup
 ----------------------------------
 -- Create user table
-create table if not exists `users`(
+create table if not exists `ds_users`(
     `id` int(11) not null auto_increment,
     `username` varchar(200) not null,
     primary key (`id`)
@@ -10,7 +10,7 @@ create table if not exists `users`(
 ;
 
 -- Insert into user table
-insert into `users` (
+insert into `ds_users` (
     `id`, `username`) 
 values 
     (1,'BruceHad'),
@@ -18,7 +18,7 @@ values
 ;
 
 -- Create tasks table
-create table if not exists `tasks`(
+create table if not exists `ds_tasks`(
     `id` int(11) not null auto_increment,
     `task` varchar(200) not null,
     `user_id` int(11) not null,
@@ -29,7 +29,7 @@ create table if not exists `tasks`(
 ;
 
 -- Insert tasks into table
-insert into `tasks` 
+insert into `ds_tasks` 
     (`id`, `task`, `user_id`, `start_date`)
 values 
     (1, 'First task',   2, 1393362953),
@@ -37,7 +37,7 @@ values
 ;
 
 -- Creates tasks_done table
-create table if not exists `tasks_done`(
+create table if not exists `ds_tasks_done`(
     `id` int(11) not null auto_increment,
     `task_id` int(11) not null,
     `date_complete` date not null,
@@ -45,7 +45,7 @@ create table if not exists `tasks_done`(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5
 ;
 
-insert into `tasks_done` 
+insert into `ds_tasks_done` 
     (`id`, `task_id`, `date_complete`)
 values 
     (1, 1, str_to_date('01-JAN-2014','%d-%M-%Y')),

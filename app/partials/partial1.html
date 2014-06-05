@@ -53,7 +53,7 @@
                             <div class="col-xs-8 name">
                                 {{task.task_name}}
                                 <small>({{task.start_date | date: 'dd MMM yy' }} - 
-                            {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}}) {{task.done}}</small> 
+                            {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}})</small> 
                             </div>
                             <div class="col-xs-4 tools">
                                 <a href="" ng-click="toggleTask(task.task_id, date, true)" class="tickbox done" ng-class="{hidden: task.done}">Done</a>

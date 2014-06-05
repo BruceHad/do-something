@@ -6,6 +6,13 @@
 //     return this.push.apply(this, rest);
 // };
 
+Date.prototype.addDays = function(days)
+{
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+}
+
 function getStartDate(date){
     // Return first monday of the current week
     // initially date is set to 'new Date()'
@@ -18,6 +25,7 @@ function getStartDate(date){
 function padStr(i) {
     return (i < 10) ? "0" + i : "" + i;
 }
+
 
 angular.module('myApp.controllers', [])
 .controller('MyCtrl', ['$scope', '$http',  '$cookieStore', function($scope, $http, $cookieStore) {
@@ -66,18 +74,15 @@ angular.module('myApp.controllers', [])
 .controller('TasksCtrl', ['$scope', '$http', function($scope, $http)  {
     $scope.data = {};
     $scope.data.form_data = {};
-    // $scope.data.tasks_found = false;
-//     $scope.data.adding_task = true;
     var days = 14;
     $scope.data.start_date = getStartDate(new Date());
-    $scope.data.end_date = new Date();
-    $scope.data.end_date.setDate($scope.data.start_date.getDate()+days);
+    $scope.data.end_date = $scope.data.start_date.addDays(days);
     getTasks();
 
     // Watcher checks for changes in id to fires getTasks()
     // when user logs in.
     $scope.$watch('main.user_id', function(newvalue, oldvalue) {
-        if(newvalue > 0 && newvalue != oldvalue) {getTasks();}
+        if(newvalue > 0 && newvalue != oldvalue) getTasks();
     });
     $scope.$watchCollection('data.tasks', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
@@ -89,7 +94,6 @@ angular.module('myApp.controllers', [])
             }
         }
     });
-    
     $scope.$watchCollection('data.tasks_done', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
             console.log($scope.data.tasks);
@@ -118,7 +122,7 @@ angular.module('myApp.controllers', [])
             getTasks();
             console.log(response);
         }); 
-    }
+    };
     $scope.editTask = function(task){ 
         $scope.data.form_data = {
             start_date: task.start_date,
@@ -126,8 +130,45 @@ angular.module('myApp.controllers', [])
             task_id:task.task_id,
             task_name: task.task_name
         };
-    }
-
+    };
+    $scope.toggleTask = function(task_id, date, done) {
+        var date = new Date(parseInt(date));
+        var date_str = padStr(date.getFullYear()) + '-' +
+                  padStr(1 + date.getMonth()) + '-' +
+                  padStr(date.getDate());
+        console.log(date_str);
+        var par = {"task_id": task_id, "task_date": date_str}
+        if(done) {
+            $http.get("ajax/addTaskDate.php", {params: par}).success(function(response){
+               console.log(response);
+            });
+            $scope.data.tasks_done.push({
+                date_complete: date_str,
+                task_id: task_id
+            });
+        }
+        else {
+            var id = isTaskDone(task_id, date);
+            $http.get("ajax/delTaskDate.php",{params: par}).success(function(response){
+                console.log(response);
+            });
+            delete $scope.data.tasks_done[id];
+        }
+    };
+    $scope.changeDate = function(days){
+        $scope.data.start_date = $scope.data.start_date.addDays(days);
+        $scope.data.end_date = $scope.data.end_date.addDays(days);
+        getTasks();
+    };
+    $scope.isMon = function(date){
+        var date = parseInt(date);
+        var day = new Date(date);
+        return (day.getUTCDay() == 0) ? true: false;
+    };
+    $scope.clearForm = function(form){
+        $scope.data.form_data = {};
+        form.$setPristine();
+    };
     function getTasks(){
         // 1. Grab tasks done.
         var par = {id: $scope.main.user_id};
@@ -147,16 +188,13 @@ angular.module('myApp.controllers', [])
             }
         });
     };
-
     function buildTaskList(){
         // Populate days object for current time period.
         // day => date => tasksList => task done
         var tasks = $scope.data.tasks;
-        console.log($scope.data.tasks);
         var task_list = {};        
         for(var i = 0; i < days; i++) {
-            var now = new Date();
-            now.setDate($scope.data.start_date.getDate()+i);
+            var now = $scope.data.start_date.addDays(i);            
             now.setHours(0,0,0,0);
             // Create tasks list
             var taskList = [];
@@ -170,7 +208,7 @@ angular.module('myApp.controllers', [])
                 if(start <= now && end > now){
                     taskList[j] = {
                         task_name: tasks[j].task_name,
-                        done: isTaskDone(tasks[j].id, now),
+                        done: isTaskDone(tasks[j].id, now) ? true : false,
                         start_date: tasks[j].start_date,
                         end_date: tasks[j].end_date,
                         task_id: tasks[j].id
@@ -185,41 +223,10 @@ angular.module('myApp.controllers', [])
             $scope.data.tasksFound = true;
             $scope.data.task_list = task_list;
         }
-//         console.log(task_list);
     };
-    $scope.changeDate = function(days){
-        $scope.data.start_date.setDate($scope.data.start_date.getDate()+days);
-        $scope.data.end_date.setDate($scope.data.end_date.getDate()+days);
-        getTasks();
-    }
-
-
-
-
-    // function addTaskDate(task_id, date) {
-    //     $http.get("ajax/addTaskDate.php?task_id="+task_id+"&date="+date).success(function(data){
-    //        console.log(data);
-    //    });
-    // };
-
-    // function delTaskDate(task_id, date) {
-    //     $http.get("ajax/delTaskDate.php?task_id="+task_id+"&date="+date).success(function(data){
-    //        console.log(data);
-    //    });
-    // };
-
-    // // function getTaskDone(id, dateStr){
-    // //     var taskDates = $scope.data.tasks_done; //Completed tasks.
-    // //     for(var i in taskDates){
-    // //         if(taskDates[i].task_id == id && taskDates[i].date_complete == dateStr){
-    // //             return i;
-    // //         }
-    // //     }
-    // // }
-
-    
-
     function isTaskDone(id, date){
+        // Determines if a task is complete for a date
+        // and if so, return the id of said task_date.
         var dateStr = padStr(date.getFullYear()) + '-' +
                   padStr(1 + date.getMonth()) + '-' +
                   padStr(date.getDate());
@@ -230,58 +237,5 @@ angular.module('myApp.controllers', [])
             }
         }
         return false;
-    };
-
-    
-
-    $scope.isMon = function(date){
-        var date = parseInt(date);
-        var day = new Date(date);
-        if(day.getUTCDay() == 0){
-            return true;
-        } else {
-            return false;
-        }
-    };
-    $scope.toggleTask = function(task_id, date, done) {
-//         console.log(task_id + date + done);
-        var date = new Date(parseInt(date));
-        var date_str = padStr(date.getFullYear()) + '-' +
-                  padStr(1 + date.getMonth()) + '-' +
-                  padStr(date.getDate());
-        console.log(date_str);
-        var par = {"task_id": task_id, "task_date": date_str}
-        if(done) {
-            $http.get("ajax/addTaskDate.php", {params: par}).success(function(response){
-               console.log(response);
-            });
-            $scope.data.tasks_done.push({
-                date_complete: date_str,
-                task_id: task_id
-            });
-        } 
-        else {
-            var id = isTaskDone(task_id, date);
-            $http.get("ajax/delTaskDate.php",{params: par}).success(function(response){
-                console.log(response);
-            });
-            delete $scope.data.tasks_done[id];            
-        }
-    };
-    
-    // $scope.addTask = function(form) {
-    //     var success = false;
-    //     var valid = false;
-    //     // validate
-    //     console.log($scope.data.formData);
-    //     $http.get("ajax/addTask.php", {$scope.data.formData)
-    //     .success(function(tasks){
-    //             $scope.clearForm(form);
-    //         }
-    //     };
-
-    $scope.clearForm = function(form){
-        $scope.data.form_data = {};
-        form.$setPristine();
     };
 }]);

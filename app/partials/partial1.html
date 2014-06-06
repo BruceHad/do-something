@@ -37,29 +37,29 @@
                 <div id="date-period">
                     <p>Date Period: <a ng-click="changeDate(-14)">&lt;&lt;</a> {{data.start_date | date: 'dd-MMM-yy'}} to {{data.end_date | date: 'dd-MMM-yy'}} <a ng-click="changeDate(14)">&gt;&gt;</a></p>
                 </div>
-                <div class="row clearfix" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
-                    <div class="col col-xs-2 one">
+                <div class="row clearfix task-day" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
+                    <div class="col col-xs-2">
                         <span ng-class="{hidden: ! isMon(date)}">
                         {{date | date: 'dd-MMM'}}
                     </span>
                     </div>
 
-                    <div class="col col-xs-2 two">
+                    <div class="col col-xs-2">
                         {{date | date: 'EEE'}}
                     </div>
 
-                    <div class="col col-xs-8 three">
-                        <div class="row task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}">
+                    <div class="col col-xs-8">
+                        <div class="row task-task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}">
                             <div class="col-xs-8 name">
                                 {{task.task_name}}
-                                <small>({{task.start_date | date: 'dd MMM yy' }} - 
-                            {{task.end_date == null && " " || task.end_date | date: 'dd MMM yy'}})</small> 
                             </div>
                             <div class="col-xs-4 tools">
-                                <a href="" ng-click="toggleTask(task.task_id, date, true)" class="tickbox done" ng-class="{hidden: task.done}">Done</a>
-                                <a href="" ng-click="toggleTask(task.task_id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
-                                <a href="" ng-click="editTask(task)" class="edit">Edit</a>
-                                <a href="" ng-click="deleteTask(task.task_id)" class="delete">Delete</a>
+                                <div>
+                                    <a href="" ng-click="toggleTask(task.task_id, date, true)" class="tickbox done" ng-class="{hidden: task.done}">Done</a>
+                                    <a href="" ng-click="toggleTask(task.task_id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
+                                    <a href="" ng-click="editTask(task)" class="edit">Edit</a>
+                                    <a href="" ng-click="deleteTask(task.task_id)" class="delete">Delete</a>    
+                                </div>
                             </div>
                         </div><!-- inner row-->
                     </div>

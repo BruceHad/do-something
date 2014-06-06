@@ -19,6 +19,30 @@ other selectors that are more specific or come later and might alter display.
 
 /* The Task List 
 ------------------------*/
+.task-day {
+    color: #777;
+}
+
+.task-task .name {
+    color: black;
+}
+
+.task-day  {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 6px 0;
+}
+
+.task-task  {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin: 3px 0;
+}
+
+.tools div {
+    float: right;
+}
+
 .tools a {
     display:block;
     float:left;
@@ -50,7 +74,9 @@ other selectors that are more specific or come later and might alter display.
 }
 
 .taskdone {
-    background-color: #ccc;
+    background-color: #eee;
+}
+.taskdone .name {
     color: #888;
 }
 

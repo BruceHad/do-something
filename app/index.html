@@ -43,10 +43,11 @@
                         <button type="submit" class="btn">Log In</button>
 
                     </div>
-                    <div ng-hide="! main.loggedin">
-                        <p>Hello <strong>{{main.user_name}}</strong>. (<a href="#" ng-click="logout()">Logout</a>)</p>
-                    </div>
+<!--                     <div ng-hide="! main.loggedin">
+                        <p></p>
+                    </div> -->
                 </form>
+                <p ng-hide="! main.loggedin" class="navbar-text navbar-right">Hello &amp; Welcome <strong>{{main.user_name}}</strong>. (<a href="#" ng-click="logout()">Logout</a>)</p>
 
             </div>
             <!--/.navbar-collapse -->

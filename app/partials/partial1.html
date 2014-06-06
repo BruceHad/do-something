@@ -2,38 +2,38 @@
     <div class="row">
         <div class="col col-md-4">
             <div id="adding-task" ng-show="main.loggedin">
-                <form name="add_task_form" ng-submit="addTask(add_task_form)" class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label class="control-label" for="task-name">Name</label>
+				<h2>Do Something</h2>
+				<p>A daily task list.</p>
+				<p>This is a practice project for learning the <a href="https://angularjs.org/">AngularJS</a> framework. The aim is to build a basic, but functional CRUD application.</p>
+				<h3>Add New Task</h3>
+				<p>Enter a task name and date period for the task.</p>
+                <form name="add_task_form" ng-submit="addTask(add_task_form)" role="form">
+                    <div class="input-group">
+                        <span class="input-group-addon">Task</span>
                         <input type="text" name="task-name" id="task-name" class="form-control" ng-model="data.form_data.task_name" minlength="1" maxlength="50" placeholder="Task name" required />
                     </div>
-                    <div class="form-group">
-                        <label class="control-label" for="task-id">Key</label>
+                    <div class="input-group hidden">
+                        <span class="input-group-addon">Key</span>
                         <input type="text" name="task-key" id="task-id" class="form-control" ng-model="data.form_data.task_id" />
                     </div>
-                    <div class="form-group">
-                        <label class="control-label" for="start-date">Start Date</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">Start Date</span>
                         <input type="date" name="start-date" id="start-date" class="form-control" ng-model="data.form_data.start_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
                     </div>
-                    <div class="form-group">
-                        <label class="control-label" for="end-date">End Date</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">End Date</span>
                         <input type="date" name="end-date" id="end-date" class="form-control" ng-model="data.form_data.end_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
                     </div>
-                    <div class="form-group">
-                            <button type="submit" id="submit">Add/Edit Task</button>
+                    <div class="input-group">
+                            <button type="submit" id="submit">{{data.form_data.task_id ? "Edit Task" : "Add Task"}}</button>
                             <button id="cancel" ng-click="clearForm(add_task_form)">Clear Form</button>
-                    </div>
-
-                    <pre>{{data.form_data | json}}</pre>
-                    <p>Pristine: {{add_task_form.$pristine}}, Valid: {{add_task_form.$valid}}, Dirty: {{add_task_form.$dirty}}</p>
-                    <div class="error" ng-show="data.form_error">
-                        <p>{{data.form_error}}</p>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col col-md-8">
             <div id="task-list" ng-show="main.loggedin">
+				<h2>Task List</h2>
                 <div id="date-period">
                     <p>Date Period: <a ng-click="changeDate(-14)">&lt;&lt;</a> {{data.start_date | date: 'dd-MMM-yy'}} to {{data.end_date | date: 'dd-MMM-yy'}} <a ng-click="changeDate(14)">&gt;&gt;</a></p>
                 </div>

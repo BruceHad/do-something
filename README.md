@@ -12,3 +12,9 @@ v1.
 2. Add/Edit/Delete tasks.
 3. Mark tasks as 'Complete'.
 4. Amend date period.
+
+v2. 
+
+1. Tidy up view (mobile).
+2. Make dates more flexible.
+3. 

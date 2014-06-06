@@ -13,6 +13,10 @@ other selectors that are more specific or come later and might alter display.
     display: none !important;
 }
 
+.hidden {
+	display: none;
+}
+
 /* The Task List 
 ------------------------*/
 .tools a {
@@ -50,6 +54,21 @@ other selectors that are more specific or come later and might alter display.
     color: #888;
 }
 
+/* Form
+ */
+
+.input-group {
+	margin-bottom: 5px;
+}
+
+.input-group button {
+	margin-right: 5px;
+}
+
+.input-group-addon {
+	min-width: 100px;
+	text-align: right;
+}
 
 
 

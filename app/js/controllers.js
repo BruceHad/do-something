@@ -26,6 +26,15 @@ function padStr(i) {
     return (i < 10) ? "0" + i : "" + i;
 }
 
+function convertDate(date){
+	//converts date object to str format yyyy-mm-dd
+	return date.getFullYear()
+		+'-'
+		+padStr(date.getMonth()+1)
+		+'-'
+		+padStr(date.getDay()+1);
+}
+
 
 angular.module('myApp.controllers', [])
 .controller('MyCtrl', ['$scope', '$http',  '$cookieStore', function($scope, $http, $cookieStore) {
@@ -76,6 +85,7 @@ angular.module('myApp.controllers', [])
     $scope.data.form_data = {};
     var days = 14;
     $scope.data.start_date = getStartDate(new Date());
+	$scope.data.form_data.start_date = convertDate($scope.data.start_date);
     $scope.data.end_date = $scope.data.start_date.addDays(days);
     getTasks();
 
@@ -86,9 +96,9 @@ angular.module('myApp.controllers', [])
     });
     $scope.$watchCollection('data.tasks', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
-            console.log($scope.data.tasks);
-            console.log($scope.data.tasks_done);
-            console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
+//             console.log($scope.data.tasks);
+//             console.log($scope.data.tasks_done);
+//             console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
             if(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
                 buildTaskList();
             }
@@ -96,9 +106,9 @@ angular.module('myApp.controllers', [])
     });
     $scope.$watchCollection('data.tasks_done', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
-            console.log($scope.data.tasks);
-            console.log($scope.data.tasks_done);
-            console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
+//             console.log($scope.data.tasks);
+//             console.log($scope.data.tasks_done);
+//             console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
             if (! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
                 buildTaskList();
             }
@@ -110,7 +120,6 @@ angular.module('myApp.controllers', [])
         // validate
         $scope.data.form_data.user_id = $scope.main.user_id;
         var par = $scope.data.form_data;  
-        console.log(par);
         $http.get("ajax/addTask.php", {params: par}).success(function(response){
             getTasks();          
             $scope.clearForm(form);
@@ -133,10 +142,7 @@ angular.module('myApp.controllers', [])
     };
     $scope.toggleTask = function(task_id, date, done) {
         var date = new Date(parseInt(date));
-        var date_str = padStr(date.getFullYear()) + '-' +
-                  padStr(1 + date.getMonth()) + '-' +
-                  padStr(date.getDate());
-        console.log(date_str);
+        var date_str = convertDate(date);
         var par = {"task_id": task_id, "task_date": date_str}
         if(done) {
             $http.get("ajax/addTaskDate.php", {params: par}).success(function(response){

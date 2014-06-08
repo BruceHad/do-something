@@ -22,7 +22,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">End Date</span>
-                        <input type="date" name="end-date" id="end-date" class="form-control" ng-model="data.form_data.end_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
+                        <input type="date" name="end-date" id="end-date" class="form-control" ng-model="data.form_data.end_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" />
                     </div>
                     <div class="input-group">
                             <button type="submit" id="submit">{{data.form_data.task_id ? "Edit Task" : "Add Task"}}</button>
@@ -39,9 +39,9 @@
                 </div>
                 <div class="row clearfix task-day" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
                     <div class="col col-xs-2">
-                        <span ng-class="{hidden: ! isMon(date)}">
+                        <span ng-class="{hidden:  isMon(date2)}">
                         {{date | date: 'dd-MMM'}}
-                    </span>
+                        </span>
                     </div>
 
                     <div class="col col-xs-2">

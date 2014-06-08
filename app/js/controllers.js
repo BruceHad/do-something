@@ -13,9 +13,11 @@ Date.prototype.addDays = function(days)
     return dat;
 }
 
-function getStartDate(date){
+function getStartDate(){
     // Return first monday of the current week
     // initially date is set to 'new Date()'
+    var date = new Date(new Date().toJSON().slice(0,10));
+    date.setHours(7);
     var day = date.getDay();
     date.setHours(0,0,0,0);
     date.setDate(date.getDate() - day+1);
@@ -28,11 +30,12 @@ function padStr(i) {
 
 function convertDate(date){
 	//converts date object to str format yyyy-mm-dd
+    // console.log(date.getDate());
 	return date.getFullYear()
 		+'-'
 		+padStr(date.getMonth()+1)
 		+'-'
-		+padStr(date.getDay()+1);
+		+padStr(date.getDate()+1);
 }
 
 
@@ -84,7 +87,7 @@ angular.module('myApp.controllers', [])
     $scope.data = {};
     $scope.data.form_data = {};
     var days = 14;
-    $scope.data.start_date = getStartDate(new Date());
+    $scope.data.start_date = getStartDate();
 	$scope.data.form_data.start_date = convertDate($scope.data.start_date);
     $scope.data.end_date = $scope.data.start_date.addDays(days);
     getTasks();
@@ -123,6 +126,7 @@ angular.module('myApp.controllers', [])
         $http.get("ajax/addTask.php", {params: par}).success(function(response){
             getTasks();          
             $scope.clearForm(form);
+            $scope.data.form_data.start_date = convertDate($scope.data.start_date);
             console.log(response);
         });                                                    
     };
@@ -141,15 +145,13 @@ angular.module('myApp.controllers', [])
         };
     };
     $scope.toggleTask = function(task_id, date, done) {
-        var date = new Date(parseInt(date));
-        var date_str = convertDate(date);
-        var par = {"task_id": task_id, "task_date": date_str}
+        var par = {"task_id": task_id, "task_date": date}
         if(done) {
             $http.get("ajax/addTaskDate.php", {params: par}).success(function(response){
                console.log(response);
             });
             $scope.data.tasks_done.push({
-                date_complete: date_str,
+                date_complete: date,
                 task_id: task_id
             });
         }
@@ -198,30 +200,30 @@ angular.module('myApp.controllers', [])
         // Populate days object for current time period.
         // day => date => tasksList => task done
         var tasks = $scope.data.tasks;
-        var task_list = {};        
+        var task_list = {};
         for(var i = 0; i < days; i++) {
-            var now = $scope.data.start_date.addDays(i);            
+            var now = $scope.data.start_date.addDays(i);
+            var now_str = convertDate(now);
             now.setHours(0,0,0,0);
             // Create tasks list
-            var taskList = [];
+            var daily_tasks = [];
             for (var j=0; j < tasks.length; j++){
-                var start = new Date(tasks[j].start_date);
-                if(tasks[j].end_date != null){
-                    var end = new Date(tasks[j].end_date);
-                } else {
-                    var end = new Date('9999-01-01');
-                }
-                if(start <= now && end > now){
-                    taskList[j] = {
+                // console.log(tasks[j].task_name);
+                // console.log(tasks[j].end_date);
+                var start = tasks[j].start_date;
+                var end = (tasks[j].end_date != '0000-00-00') ? tasks[j].end_date : '9999-01-01';
+                if(start <= now_str && end > now_str){
+                    var task = {
                         task_name: tasks[j].task_name,
-                        done: isTaskDone(tasks[j].id, now) ? true : false,
+                        done: isTaskDone(tasks[j].id, now_str) ? true : false,
                         start_date: tasks[j].start_date,
                         end_date: tasks[j].end_date,
                         task_id: tasks[j].id
                     };
+                    daily_tasks.push(task);
                 }
             }
-            task_list[now.getTime()] = taskList;
+            task_list[now_str] = daily_tasks;
         }
         if(Object.keys(task_list).length > 0){
             $scope.data.tasksFound = true;
@@ -231,12 +233,10 @@ angular.module('myApp.controllers', [])
     function isTaskDone(id, date){
         // Determines if a task is complete for a date
         // and if so, return the id of said task_date.
-        var dateStr = padStr(date.getFullYear()) + '-' +
-                  padStr(1 + date.getMonth()) + '-' +
-                  padStr(date.getDate());
         var taskDates = $scope.data.tasks_done; //Completed tasks.
+        // console.log(id+", "+date);
         for(var i in taskDates){
-            if(taskDates[i].task_id == id && taskDates[i].date_complete == dateStr){
+            if(taskDates[i].task_id == id && taskDates[i].date_complete == date){
                 return i;
             }
         }

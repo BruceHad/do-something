@@ -221,9 +221,7 @@ angular.module('myApp.controllers', [])
                     };
                 }
             }
-            if(Object.keys(taskList).length > 0){
-                task_list[now.getTime()] = taskList;
-            }
+            task_list[now.getTime()] = taskList;
         }
         if(Object.keys(task_list).length > 0){
             $scope.data.tasksFound = true;

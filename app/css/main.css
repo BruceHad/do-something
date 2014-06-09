@@ -54,11 +54,11 @@ other selectors that are more specific or come later and might alter display.
 
 .tools .done {
     /*border:2px solid red;*/
-    background:url('../img/done16.png');
+    background:url('../img/notdone16.png');
 }
 
 .tools .not-done{
-    background:url('../img/notdone16.png');
+    background:url('../img/done16.png');
 }
 
 .edit {

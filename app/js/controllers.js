@@ -110,7 +110,7 @@ angular.module('myApp.controllers', [])
     $scope.$watchCollection('data.tasks_done', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
 //             console.log($scope.data.tasks);
-//             console.log($scope.data.tasks_done);
+            console.log($scope.data.tasks_done);
 //             console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
             if (! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
                 buildTaskList();
@@ -146,7 +146,7 @@ angular.module('myApp.controllers', [])
     };
     $scope.toggleTask = function(task_id, date, done) {
         var par = {"task_id": task_id, "task_date": date}
-        if(done) {
+        if(! done) {
             $http.get("ajax/addTaskDate.php", {params: par}).success(function(response){
                console.log(response);
             });

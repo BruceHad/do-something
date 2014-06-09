@@ -49,14 +49,14 @@
                     </div>
 
                     <div class="col col-xs-8">
-                        <div class="row task-task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}" >
+                        <div class="row task-task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}" ng-click="toggleTask(task.task_id, date, task.done)">
                             <div class="col-xs-8 name">
                                 {{task.task_name}}
                             </div>
                             <div class="col-xs-4 tools">
                                 <div>
-                                    <a href="" ng-click="toggleTask(task.task_id, date, true)" class="tickbox done" ng-class="{hidden: task.done}">Done</a>
-                                    <a href="" ng-click="toggleTask(task.task_id, date, false)" class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
+                                    <a class="tickbox done" ng-class="{hidden: task.done}">Done</a>
+                                    <a class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
                                     <a href="" ng-click="editTask(task)" class="edit">Edit</a>
                                     <a href="" ng-click="deleteTask(task.task_id)" class="delete">Delete</a>    
                                 </div>

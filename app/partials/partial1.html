@@ -4,7 +4,7 @@
             <div id="adding-task">
 				<h2>Do Something</h2>
 				<p>A daily task list.</p>
-				<p>This is a practice project for learning the <a href="https://angularjs.org/">AngularJS</a> framework. The aim is to build a basic, but functional CRUD application.</p>
+				<p>This is a practice project for learning the <a href="https://angularjs.org/">AngularJS</a> framework. The aim is to build a basic, but functional <acronym title="Create Read Update Delete">CRUD</acronym> application.</p>
 				
 				<div ng-show="main.loggedin">
 					<h3>Add New Task</h3>
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col col-md-8">
-            <div id="task-list" ng-show="main.loggedin">
+            <div ng-show="main.loggedin">
 				<h2>Task List</h2>
                 <div id="date-period">
 					<p>Date Period</p>
@@ -47,36 +47,37 @@
 						<span><a href ng-click="changeDate(14)">&gt;&gt;</a></span>
 					</p>
                 </div>
-                <div class="row clearfix task-day" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
-                    <div class="col col-xs-2">
-                        <span ng-class="{hidden:  isMon(date2)}">
-                        {{date | date: 'dd-MMM'}}
-                        </span>
-                    </div>
+                <div id="task-list" ng-class="{building : data.building, built: ! data.building}">
+                    <div class="row clearfix task-day" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
+                        <div class="col col-xs-2">
+                            <span ng-class="{hidden:  isMon(date2)}">
+                            {{date | date: 'dd-MMM'}}
+                            </span>
+                        </div>
 
-                    <div class="col col-xs-2">
-                        {{date | date: 'EEE'}}
-                    </div>
+                        <div class="col col-xs-2">
+                            {{date | date: 'EEE'}}
+                        </div>
 
-                    <div class="col col-xs-8">
-                        <div class="row task-task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}" ng-click="toggleTask(task.task_id, date, task.done)">
-                            <div class="col-xs-8 name">
-                                {{task.task_name}}
-                            </div>
-                            <div class="col-xs-4 tools">
-                                <div>
-                                    <a class="tickbox done" ng-class="{hidden: task.done}">Done</a>
-                                    <a class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
-                                    <a href="" ng-click="editTask(task)" class="edit">Edit</a>
-                                    <a href="" ng-click="deleteTask(task.task_id)" class="delete">Delete</a>    
+                        <div class="col col-xs-8">
+                            <div class="row task-task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}" ng-click="toggleTask(task.task_id, date, task.done)">
+                                <div class="col-xs-8 name">
+                                    {{task.task_name}}
                                 </div>
-                            </div>
-                        </div><!-- inner row-->
-                    </div>
-                </div><!-- outer row -->
+                                <div class="col-xs-4 tools">
+                                    <div>
+                                        <a class="tickbox done" ng-class="{hidden: task.done}">Done</a>
+                                        <a class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>
+                                        <a href="" ng-click="editTask(task)" class="edit">Edit</a>
+                                        <a href="" ng-click="deleteTask(task.task_id)" class="delete">Delete</a>    
+                                    </div>
+                                </div>
+                            </div><!-- inner row-->
+                        </div>
+                    </div><!-- outer row -->
+                </div>
             </div>
-            <div ng-hide="main.loggedin">
-                <p>A to-do list for daily tasks.</p>
+            <div ng-hide="main.loggedin" style="text-align:center; padding-top: 50px; font-weight: bold;">
                 <p>Please log in.</p>
 				<p>Login as <strong>'test'</strong> to play with the app.</p>
             </div><!-- login container -->

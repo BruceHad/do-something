@@ -11,10 +11,10 @@ v1.
 1. Basic login
 2. Add/Edit/Delete tasks.
 3. Mark tasks as 'Complete'.
-4. Amend date period.
+4. View different date periods.
 
 v2. 
 
 1. Tidy up view (mobile).
 2. Make dates more flexible.
-3. 
+3. Summarise results.

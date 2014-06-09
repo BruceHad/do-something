@@ -30,7 +30,6 @@ function padStr(i) {
 
 function convertDate(date){
 	//converts date object to str format yyyy-mm-dd
-    // console.log(date.getDate());
 	return date.getFullYear()
 		+'-'
 		+padStr(date.getMonth()+1)
@@ -86,6 +85,7 @@ angular.module('myApp.controllers', [])
 .controller('TasksCtrl', ['$scope', '$http', function($scope, $http)  {
     $scope.data = {};
     $scope.data.form_data = {};
+// 	$scope.data.building = true;
     var days = 14;
     $scope.data.start_date = getStartDate();
 	$scope.data.form_data.start_date = convertDate($scope.data.start_date);
@@ -95,13 +95,13 @@ angular.module('myApp.controllers', [])
     // Watcher checks for changes in id to fires getTasks()
     // when user logs in.
     $scope.$watch('main.user_id', function(newvalue, oldvalue) {
-        if(newvalue > 0 && newvalue != oldvalue) getTasks();
+        if(newvalue > 0 && newvalue != oldvalue){
+            getTasks();
+            $scope.data.building = true;
+        }
     });
     $scope.$watchCollection('data.tasks', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
-//             console.log($scope.data.tasks);
-//             console.log($scope.data.tasks_done);
-//             console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
             if(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
                 buildTaskList();
             }
@@ -109,9 +109,6 @@ angular.module('myApp.controllers', [])
     });
     $scope.$watchCollection('data.tasks_done', function(newvalue, oldvalue){
         if(newvalue != oldvalue){
-//             console.log($scope.data.tasks);
-            console.log($scope.data.tasks_done);
-//             console.log(! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined));
             if (! ($scope.data.tasks == undefined || $scope.data.tasks_done == undefined)){
                 buildTaskList();
             }
@@ -164,6 +161,7 @@ angular.module('myApp.controllers', [])
         }
     };
     $scope.changeDate = function(days){
+		$scope.data.building = true;
         $scope.data.start_date = $scope.data.start_date.addDays(days);
         $scope.data.end_date = $scope.data.end_date.addDays(days);
         getTasks();
@@ -199,6 +197,7 @@ angular.module('myApp.controllers', [])
     function buildTaskList(){
         // Populate days object for current time period.
         // day => date => tasksList => task done
+        $scope.data.building = true;
         var tasks = $scope.data.tasks;
         var task_list = {};
         for(var i = 0; i < days; i++) {
@@ -208,8 +207,6 @@ angular.module('myApp.controllers', [])
             // Create tasks list
             var daily_tasks = [];
             for (var j=0; j < tasks.length; j++){
-                // console.log(tasks[j].task_name);
-                // console.log(tasks[j].end_date);
                 var start = tasks[j].start_date;
                 var end = (tasks[j].end_date != '0000-00-00') ? tasks[j].end_date : '9999-01-01';
                 if(start <= now_str && end > now_str){
@@ -226,15 +223,14 @@ angular.module('myApp.controllers', [])
             task_list[now_str] = daily_tasks;
         }
         if(Object.keys(task_list).length > 0){
-            $scope.data.tasksFound = true;
             $scope.data.task_list = task_list;
         }
+		$scope.data.building = false;
     };
     function isTaskDone(id, date){
         // Determines if a task is complete for a date
         // and if so, return the id of said task_date.
         var taskDates = $scope.data.tasks_done; //Completed tasks.
-        // console.log(id+", "+date);
         for(var i in taskDates){
             if(taskDates[i].task_id == id && taskDates[i].date_complete == date){
                 return i;

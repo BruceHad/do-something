@@ -17,6 +17,15 @@ other selectors that are more specific or come later and might alter display.
 	display: none;
 }
 
+body {
+    overflow:scroll;
+}
+
+acronym {
+    border-bottom: 1px dotted black;
+    cursor: help;
+}
+
 /* The Task List 
 ------------------------*/
 #date-period {
@@ -33,6 +42,20 @@ other selectors that are more specific or come later and might alter display.
 #date-period .date {
 	min-width: 90px;
 }
+
+#task-list {
+    -webkit-transition: max-height 0.5s, height 0.5s;
+    transition: max-height 0.5s, height 0.5s;
+    overflow:hidden;
+}
+
+#task-list.built {
+    max-height: 999px;
+}
+
+#task-list.building {
+    max-height: 2px;
+}
 .task-day {
     color: #777;
 }
@@ -45,7 +68,11 @@ other selectors that are more specific or come later and might alter display.
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     margin: 6px 0;
+	overflow: hidden;
+	height: auto;
 }
+
+
 
 .task-task  {
     border-top: 1px solid #eee;
@@ -97,6 +124,8 @@ other selectors that are more specific or come later and might alter display.
 .taskdone .name {
     color: #888;
 }
+
+
 
 /* Form
  */

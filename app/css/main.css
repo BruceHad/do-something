@@ -19,6 +19,20 @@ other selectors that are more specific or come later and might alter display.
 
 /* The Task List 
 ------------------------*/
+#date-period {
+	text-align:center;
+}
+
+#date-period p {
+	margin:0; padding: 0;
+}
+
+#date-period span {
+	display: inline-block;
+}
+#date-period .date {
+	min-width: 90px;
+}
 .task-day {
     color: #777;
 }

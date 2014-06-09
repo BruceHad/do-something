@@ -38,7 +38,14 @@
             <div id="task-list" ng-show="main.loggedin">
 				<h2>Task List</h2>
                 <div id="date-period">
-                    <p>Date Period: <a href ng-click="changeDate(-14)">&lt;&lt;</a> {{data.start_date | date: 'dd-MMM-yy'}} to {{data.end_date | date: 'dd-MMM-yy'}} <a href ng-click="changeDate(14)">&gt;&gt;</a></p>
+					<p>Date Period</p>
+					<p>
+						<span><a href ng-click="changeDate(-14)">&lt;&lt;</a></span>
+						<span class="date">{{data.start_date | date: 'dd-MMM-yy'}}</span>
+						<span>to</span>
+						<span class="date">{{data.end_date | date: 'dd-MMM-yy'}}</span>
+						<span><a href ng-click="changeDate(14)">&gt;&gt;</a></span>
+					</p>
                 </div>
                 <div class="row clearfix task-day" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
                     <div class="col col-xs-2">

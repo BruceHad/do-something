@@ -39,6 +39,10 @@ other selectors that are more specific or come later and might alter display.
     margin: 3px 0;
 }
 
+.task-task{
+    cursor:pointer;
+}
+
 .tools div {
     float: right;
 }

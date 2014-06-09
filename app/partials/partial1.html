@@ -1,34 +1,37 @@
 <div class="container ng-cloak">
     <div class="row">
         <div class="col col-md-4">
-            <div id="adding-task" ng-show="main.loggedin">
+            <div id="adding-task">
 				<h2>Do Something</h2>
 				<p>A daily task list.</p>
 				<p>This is a practice project for learning the <a href="https://angularjs.org/">AngularJS</a> framework. The aim is to build a basic, but functional CRUD application.</p>
-				<h3>Add New Task</h3>
-				<p>Enter a task name and date period for the task.</p>
-                <form name="add_task_form" ng-submit="addTask(add_task_form)" role="form">
-                    <div class="input-group">
-                        <span class="input-group-addon">Task</span>
-                        <input type="text" name="task-name" id="task-name" class="form-control" ng-model="data.form_data.task_name" minlength="1" maxlength="50" placeholder="Task name" required />
-                    </div>
-                    <div class="input-group hidden">
-                        <span class="input-group-addon">Key</span>
-                        <input type="text" name="task-key" id="task-id" class="form-control" ng-model="data.form_data.task_id" />
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Start Date</span>
-                        <input type="date" name="start-date" id="start-date" class="form-control" ng-model="data.form_data.start_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">End Date</span>
-                        <input type="date" name="end-date" id="end-date" class="form-control" ng-model="data.form_data.end_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" />
-                    </div>
-                    <div class="input-group">
-                            <button type="submit" id="submit">{{data.form_data.task_id ? "Edit Task" : "Add Task"}}</button>
-                            <button id="cancel" ng-click="clearForm(add_task_form)">Clear Form</button>
-                    </div>
-                </form>
+				
+				<div ng-show="main.loggedin">
+					<h3>Add New Task</h3>
+					<p>Enter a task name and date period for the task.</p>
+					<form name="add_task_form" ng-submit="addTask(add_task_form)" role="form">
+						<div class="input-group">
+							<span class="input-group-addon">Task</span>
+							<input type="text" name="task-name" id="task-name" class="form-control" ng-model="data.form_data.task_name" minlength="1" maxlength="50" placeholder="Task name" required />
+						</div>
+						<div class="input-group hidden">
+							<span class="input-group-addon">Key</span>
+							<input type="text" name="task-key" id="task-id" class="form-control" ng-model="data.form_data.task_id" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">Start Date</span>
+							<input type="date" name="start-date" id="start-date" class="form-control" ng-model="data.form_data.start_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" required />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">End Date</span>
+							<input type="date" name="end-date" id="end-date" class="form-control" ng-model="data.form_data.end_date" min="2012-01-01" max="2020-01-01" placeholder="yyyy-mm-dd" />
+						</div>
+						<div class="input-group">
+								<button type="submit" id="submit">{{data.form_data.task_id ? "Edit Task" : "Add Task"}}</button>
+								<button id="cancel" ng-click="clearForm(add_task_form)">Clear Form</button>
+						</div>
+					</form>
+				</div>
             </div>
         </div>
         <div class="col col-md-8">
@@ -65,12 +68,11 @@
                     </div>
                 </div><!-- outer row -->
             </div>
+            <div ng-hide="main.loggedin">
+                <p>A to-do list for daily tasks.</p>
+                <p>Please log in.</p>
+				<p>Login as <strong>'test'</strong> to play with the app.</p>
+            </div><!-- login container -->
         </div>
     </div>
-
-    <div ng-hide="main.loggedin">
-        <h2>Do Something Everyday</h2>
-        <p>A to-do list for daily tasks.</p>
-        <p>Please log in.</p>
-    </div><!-- login container -->
 </div>

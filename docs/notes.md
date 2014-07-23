@@ -1,8 +1,18 @@
 # Do Something Every Day
 
- if(tasks[j].start_date <= day.date
-                    && (tasks[j].end_date >= day.date
-                        || tasks[j].end_date == null)){b
+v1. 
+
+1. Basic login
+2. Add/Edit/Delete tasks.
+3. Mark tasks as 'Complete'.
+4. View different date periods.
+
+v2. 
+
+1. Tidy up view (mobile).
+2. Make dates more flexible.
+3. Summarise results.
+
 
 ## 0. Description
 

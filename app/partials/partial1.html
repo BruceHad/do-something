@@ -51,22 +51,18 @@
                 </div>
                 <div id="task-list" ng-class="{building : data.building, built: ! data.building}">
                     <div class="row clearfix task-day" ng-repeat="(date, tasks) in data.task_list" ng-class="{weekend: isWeekend(day.date)}">
-                        <div class="col col-xs-2">
+                        <div class="col col-xs-3">
                             <span ng-class="{hidden:  isMon(date2)}">
-                            {{date | date: 'dd-MMM'}}
+                            {{date | date: 'EEE dd-MMM'}}
                             </span>
                         </div>
 
-                        <div class="col col-xs-2">
-                            {{date | date: 'EEE'}}
-                        </div>
-
-                        <div class="col col-xs-8">
+                        <div class="col col-xs-9">
                             <div class="row task-task clearfix" ng-repeat="task in tasks" ng-class="{taskdone: task.done}" ng-click="toggleTask(task.task_id, date, task.done)">
-                                <div class="col-xs-8 name">
+                                <div class="col-xs-7 name">
                                     {{task.task_name}}
                                 </div>
-                                <div class="col-xs-4 tools">
+                                <div class="col-xs-5 tools">
                                     <div>
                                         <a class="tickbox done" ng-class="{hidden: task.done}">Done</a>
                                         <a class="tickbox not-done" ng-class="{hidden: ! task.done}">Not Done</a>

@@ -1,3 +1,5 @@
+		<pre>{{data.start_date | date:"medium"}}</pre>
+
 <div class="container ng-cloak">
     <div class="row">
         <div class="col col-md-4">
@@ -40,11 +42,11 @@
                 <div id="date-period">
 					<p>Date Period</p>
 					<p>
-						<span><a href ng-click="changeDate(-14)">&lt;&lt;</a></span>
+						<span><a href ng-click="changeDate(-1)">&lt;&lt;</a></span>
 						<span class="date">{{data.start_date | date: 'dd-MMM-yy'}}</span>
 						<span>to</span>
 						<span class="date">{{data.end_date | date: 'dd-MMM-yy'}}</span>
-						<span><a href ng-click="changeDate(14)">&gt;&gt;</a></span>
+						<span><a href ng-click="changeDate(1)">&gt;&gt;</a></span>
 					</p>
                 </div>
                 <div id="task-list" ng-class="{building : data.building, built: ! data.building}">

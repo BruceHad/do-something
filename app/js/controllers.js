@@ -15,7 +15,6 @@ Date.prototype.addDays = function(days)
 
 function getStartDate(){
     // Return first monday of the current week
-    // initially date is set to 'new Date()'
     var date = new Date(new Date().toJSON().slice(0,10));
     date.setHours(7);
     var day = date.getDay();
@@ -34,7 +33,7 @@ function convertDate(date){
 		+'-'
 		+padStr(date.getMonth()+1)
 		+'-'
-		+padStr(date.getDate()+1);
+		+padStr(date.getDate());
 }
 
 
@@ -83,13 +82,14 @@ angular.module('myApp.controllers', [])
     };
 }])
 .controller('TasksCtrl', ['$scope', '$http', function($scope, $http)  {
+	
     $scope.data = {};
     $scope.data.form_data = {};
 // 	$scope.data.building = true;
     var days = 14;
     $scope.data.start_date = getStartDate();
 	$scope.data.form_data.start_date = convertDate($scope.data.start_date);
-    $scope.data.end_date = $scope.data.start_date.addDays(days);
+    $scope.data.end_date = $scope.data.start_date.addDays(days-1);
     getTasks();
 
     // Watcher checks for changes in id to fires getTasks()
@@ -160,10 +160,12 @@ angular.module('myApp.controllers', [])
             delete $scope.data.tasks_done[id];
         }
     };
-    $scope.changeDate = function(days){
+    $scope.changeDate = function(dir){
+		var change = days * dir;
+		console.log(change);
 		$scope.data.building = true;
-        $scope.data.start_date = $scope.data.start_date.addDays(days);
-        $scope.data.end_date = $scope.data.end_date.addDays(days);
+        $scope.data.start_date = $scope.data.start_date.addDays(change);
+        $scope.data.end_date = $scope.data.end_date.addDays(change);
         getTasks();
     };
     $scope.isMon = function(date){
@@ -203,7 +205,6 @@ angular.module('myApp.controllers', [])
         for(var i = 0; i < days; i++) {
             var now = $scope.data.start_date.addDays(i);
             var now_str = convertDate(now);
-            now.setHours(0,0,0,0);
             // Create tasks list
             var daily_tasks = [];
             for (var j=0; j < tasks.length; j++){

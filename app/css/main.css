@@ -56,12 +56,11 @@ acronym {
 #task-list.building {
     max-height: 2px;
 }
-.task-day {
-    color: #777;
-}
 
-.task-task .name {
-    color: black;
+.task {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin: 3px 0;
 }
 
 .task-day  {
@@ -72,52 +71,58 @@ acronym {
 	height: auto;
 }
 
-
-
-.task-task  {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    margin: 3px 0;
+/* .task-task .name {
+    color: black;
 }
 
-.task-task{
-    cursor:pointer;
+
+
+a.toggle-link {
+	display: block;
+	text-decoration: none;
 }
 
-.tools div {
-    float: right;
+a.toggle-link:hover {
+	text-decoration: none;
 }
-
-.tools a {
-    display:block;
-    float:left;
-    width: 16px; height: 16px;
-    margin: 1px;
-    overflow: hidden;
-    text-indent: -9999px;
+ */
+.task-name {
+	display: block;
 }
-
-.tools .done {
-    /*border:2px solid red;*/
+.tickbox {
+	display: block;
+	float: left;
+	width: 16px;
+	height: 16px;
+	margin: 1px;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+.table {
+	display: table;
+}
+.table-row {
+	display: table-row;
+}
+.table-cell {
+	display: table-cell;
+}
+.done {
     background:url('../img/notdone16.png');
 }
-
-.tools .not-done{
+.not-done{
     background:url('../img/done16.png');
 }
-
 .edit {
     background:url('../img/edit16.png');
 }
-
 .delete {
     background:url('../img/bin16.png');
 }
-
-.hidden {
+/* .hidden {
     display:none;
 }
-
+ */
 .taskdone {
     background-color: #eee;
 }
